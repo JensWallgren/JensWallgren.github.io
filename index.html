@@ -1,5 +1,6 @@
+<!DOCTYPE html>
 <hmtl>
-    <header>
+    <head>
         <title>Jens Wallgren</title>
 
         <style>
@@ -8,19 +9,39 @@
                 padding: 0;
                 margin: 0;
                 display: grid;
+                background-image: linear-gradient(
+                    345deg,
+                    hsl(168deg 100% 8%) 0%,
+                    hsl(176deg 100% 7%) 7%,
+                    hsl(184deg 100% 8%) 15%,
+                    hsl(191deg 100% 9%) 26%,
+                    hsl(196deg 100% 9%) 39%,
+                    hsl(199deg 100% 9%) 55%,
+                    hsl(205deg 78% 10%) 70%,
+                    hsl(217deg 50% 12%) 81%,
+                    hsl(234deg 31% 13%) 90%,
+                    hsl(261deg 28% 12%) 96%,
+                    hsl(289deg 29% 11%) 100%
+                );
+                height: 100vh;
+                color: #dee3dc;
+                font-size: 1.2rem;
             }
 
             .content {
-                max-width: 30rem;
+                max-width: 40rem;
+                margin: 20vh auto 0 auto;
+                padding: 2rem;
+                /*grid-template-areas:*/
             }
 
             .title {
-                grid-template-c olumns: 1fr 1fr 1fr;
-                /*grid-template-areas:*/
-                
+                h1 {
+                    font-size: 3rem;
+                }
             }
         </style>
-    </header>
+    </head>
     
     <body>
         <div class="content">
@@ -30,15 +51,11 @@
             </div>
 
             <p>
-                I'm building various solutions for a suite of different clients. I work with various technologies - some because I love them, some because they make sense within the context of the client I am working with. I build various enterprise software extensions and solutions using C#, Azure, JS, React, Python, SAP, ABAP, UI5 (Fiori), Cordova. I've spent a lot of free time mucking around with C and C++ (although mainly C).
+                I'm building solutions for a suite of different clients. I work with various technologies - some because I love them, some because they make sense within the context of the client I am working with. C#, Azure, JS, React, Python, SAP, ABAP, UI5 (Fiori), Cordova. I've spent a lot of free time mucking around with C and C++ (although mainly C).
             </p>
-            <h4>Programmer first. Architect second</h4>
+            <h5>Programmer first. Architect second</h5>
             <p>
-                I occasionally act as an architect in projects. I enjoy this too, but I prefer projects where we don't get bogged down in planning and whiteboard sessions. The best work is done when one is allowed to be exploratory. I never act as a project manager. I have colleagues that do project management better. I currently work at Implema AB - a Swedish IT Consultancy focused on ERP systems and surrounding IT systems.
-            </p>
-            <h4>Views on the industry I'm in</h4>
-            <p>
-                I think a lot of enterprise software suffers from symptoms of over-engineering and a lack of long-sightedness in what tools will likely be in use 10 years from now. That being said, for a lot of software I am working on, re-architecting or rebuilding things "to remake it right" is not a viable option. WHich means that I'm occasionally building things with technoligies I wouldn't really recommend. Building stuff and shipping software that actually make a difference is what's most important (and what makes work gratifying).
+                I occasionally act as an architect in projects. I enjoy this too, but I prefer projects where we don't get bogged down in planning and whiteboard sessions. The best work is done when one is allowed to be exploratory. I never act as a project manager. I have some ideas on the subject that I happily talk about, but I have colleagues that are far better at the subject. I currently work at Implema AB - a Swedish IT Consultancy focused on ERP systems and surrounding IT systems.
             </p>
         </div>
     </body>
