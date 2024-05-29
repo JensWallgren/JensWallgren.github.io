@@ -4,59 +4,87 @@
         <title>Jens Wallgren</title>
 
         <style>
+            :root {
+                --page-max-width: 56rem;
+            }
+
             body {
                 font-family: Helvetica, sans-serif;
                 padding: 0;
                 margin: 0;
                 display: grid;
-                background-image: linear-gradient(
-                    345deg,
-                    hsl(168deg 100% 8%) 0%,
-                    hsl(176deg 100% 7%) 7%,
-                    hsl(184deg 100% 8%) 15%,
-                    hsl(191deg 100% 9%) 26%,
-                    hsl(196deg 100% 9%) 39%,
-                    hsl(199deg 100% 9%) 55%,
-                    hsl(205deg 78% 10%) 70%,
-                    hsl(217deg 50% 12%) 81%,
-                    hsl(234deg 31% 13%) 90%,
-                    hsl(261deg 28% 12%) 96%,
-                    hsl(289deg 29% 11%) 100%
-                );
                 height: 100vh;
-                color: #dee3dc;
                 font-size: 1.2rem;
             }
 
-            .content {
-                max-width: 40rem;
-                margin: 20vh auto 0 auto;
-                padding: 2rem;
-                /*grid-template-areas:*/
+            .navbar {
+                max-width: var(--page-max-width);
+                margin: 4vh auto 0 auto;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+
+                img {
+                    width: 19rem;
+                }
+
             }
 
-            .title {
-                h1 {
-                    font-size: 3rem;
-                }
+            .nav-button {
+                text-decoration: none;
+                color: black;
+                margin-left: 4rem;
+                font-size: 1.5rem;
             }
+
+            .blog-intro {
+                max-width: var(--page-max-width);
+                margin: 14vh auto 0 auto;
+                font-size: 2rem;
+                text-align: center;
+                padding: 0 0 2rem 0;
+            }
+
+            .content-section {
+                margin: 7vh 0 0 0;
+                padding: 1vh 0 0 0;
+                background-color: hsl(0, 0%, 95%);
+                min-height: 58vh;
+            }
+
+            .content {
+                max-width: var(--page-max-width);
+                margin: 0 auto 0 auto;
+            }
+
         </style>
     </head>
     
     <body>
-        <div class="content">
-            <div class="title">
-                <h1>Jens Wallgren</h1>
-                <h3>IT & Programming Consultant</h3>
+        <div class="navbar">
+            <img src="media/light-logo.svg" alt="Jens Wallgren Logo" />
+            <div class="buttons">
+                <a class="nav-button" href="/blog">Blog</a>
+                <a class="nav-button" href="/about">About</a>
             </div>
+        </div>
 
-            <p>
-                I'm building solutions for a suite of different clients. I work with various technologies - some because I love them, some because they make sense within the context of the client I am working with. C#, Azure, JS, React, Python, SAP, ABAP, UI5 (Fiori), Cordova. I've spent a lot of free time mucking around with C and C++ (although mainly C).
-            </p>
-            <h5>Programmer first. Architect second</h5>
-            <p>
-                I occasionally act as an architect in projects. I enjoy this too, but I prefer projects where we don't get bogged down in planning and whiteboard sessions. The best work is done when one is allowed to be exploratory. I never act as a project manager. I have some ideas on the subject that I happily talk about, but I have colleagues that are far better at the subject. I currently work at Implema AB - a Swedish IT Consultancy focused on ERP systems and surrounding IT systems.
-            </p>
+        <div class="blog-intro">
+            <h1>Collected ramblings on programming and IT</h1>
+        </div>
+
+        <div class="content-section">
+            <div class="content">
+                <p>
+                    I'm building solutions for a suite of different clients. I work with various technologies - some because I love them, some because they make sense within the context of the client I am working with. C#, Azure, JS, React, Python, SAP, ABAP, UI5 (Fiori), Cordova. I've spent a lot of free time mucking around with C and C++ (although mainly C).
+                </p>
+                <h5>Programmer first. Architect second</h5>
+                <p>
+                    I occasionally act as an architect in projects. I enjoy this too, but I prefer projects where we don't get bogged down in planning and whiteboard sessions. The best work is done when one is allowed to be exploratory. I never act as a project manager. I have some ideas on the subject that I happily talk about, but I have colleagues that are far better at the subject. I currently work at Implema AB - a Swedish IT Consultancy focused on ERP systems and surrounding IT systems.
+                </p>
+            </div>
         </div>
     </body>
 </html>
