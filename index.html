@@ -45,15 +45,35 @@
             }
 
             .blog-intro {
+                position: relative;
                 max-width: var(--page-max-width);
-                margin: 14vh auto 0 auto;
-                font-size: 2rem;
-                text-align: center;
+                margin: 11vh auto 0 auto;
                 padding: 0 0 2rem 0;
+                height: 21rem;
+            }
+            
+            .blog-intro-circle {
+                position: absolute;
+                right: 8%;
+                width: 17rem;
+                height: 17rem;
+                border-radius: 50%;
+                background: linear-gradient(
+                    56deg,
+                    rgba(0,122,255,0) 10%,
+                    rgba(0,122,255,0.4) 60%,
+                    rgba(0,122,255,1) 100%
+                );
+            }
+
+            .blog-intro-title {
+                margin: 3rem 16% 0 10%;
+                position: absolute;
+                z-index: 2;
             }
 
             .content-section {
-                margin: 7vh 0 0 0;
+                margin: 4vh 0 0 0;
                 padding: 1vh 0 0 0;
             }
 
@@ -68,7 +88,7 @@
     <body>
         <div class="top-section">
             <div class="navbar">
-                <img class="nav-logo" src="media/light-logo.svg" alt="Jens Wallgren Logo" />
+                <img class="nav-logo" src="media/light-logo.svg" alt="Jens Wallgren Logo"/>
                 <div class="buttons">
                     <a class="nav-button" href="/blog">Blog</a>
                     <a class="nav-button" href="/about">About</a>
@@ -76,7 +96,8 @@
             </div>
 
             <div class="blog-intro">
-                <h1>Collected ramblings on programming and IT</h1>
+                <div class="blog-intro-circle"></div>
+                <img class="blog-intro-title" src="media/light-blog-intro-title.svg"/>
             </div>
         </div>
 
