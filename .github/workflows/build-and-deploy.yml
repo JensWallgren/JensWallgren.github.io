@@ -37,7 +37,7 @@ jobs:
         run: mkdir out
 
       - name: Apply jinja2 templates
-        run: staticjinja --outdir out
+        run: staticjinja build --outdir out
 
 
       - name: Setup Pages
