@@ -3,6 +3,7 @@
     <head>
         <title>Jens Wallgren</title>
 
+        <script src="/dependencies/htmx.js"></script>
         <style>
             :root {
                 --page-max-width: 56rem;
@@ -60,7 +61,7 @@
                 border-radius: 50%;
                 background: linear-gradient(
                     205deg,
-                 %   rgba(0,122,255,0) 10%,
+                    rgba(0,122,255,0) 10%,
                     rgba(0,122,255,0.4) 60%,
                     rgba(0,122,255,1) 100%
                 );
@@ -91,7 +92,9 @@
                 <img class="nav-logo" src="media/light-logo.svg" alt="Jens Wallgren Logo"/>
                 <div class="buttons">
                     <a class="nav-button" href="/blog">Blog</a>
-                    <a class="nav-button" href="/about">About</a>
+                    <a class="nav-button" hx-get="/about.html" hx-select=".content" hx-target=".content-section" hx-swap="innerHTML">
+                        About
+                    </a>
                 </div>
             </div>
 
