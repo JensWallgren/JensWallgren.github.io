@@ -33,9 +33,6 @@ jobs:
       - name: Install staticjinja
         run: pip install staticjinja
 
-      - name: Create out filder
-        run: mkdir out
-
       - name: Apply jinja2 templates
         run: staticjinja build --outpath out
 

@@ -1,116 +1,21 @@
-<!DOCTYPE html>
-<hmtl>
-    <head>
-        <title>Jens Wallgren</title>
+{% extends "_base.html" %}
 
-        <style>
-            :root {
-                --page-max-width: 56rem;
-            }
+{% block banner %}
+    <div class="blog-intro">
+        <div class="blog-intro-circle"></div>
+        <img class="blog-intro-title" src="media/light-blog-intro-title.svg"/>
+    </div>
+{% endblock %}
 
-            body {
-                font-family: Helvetica, sans-serif;
-                background-color: hsl(0, 0%, 95%);
-                padding: 0;
-                margin: 0;
-                display: grid;
-                height: 100vh;
-                font-size: 1.2rem;
-            }
+{% block content %}
+    <div class="content">
+        <p>
+            I'm building solutions for a suite of different clients. I work with various technologies - some because I love them, some because they make sense within the context of the client I am working with. C#, Azure, JS, React, Python, SAP, ABAP, UI5 (Fiori), Cordova. I've spent a lot of free time mucking around with C and C++ (although mainly C).
+        </p>
+        <h5>Programmer first. Architect second</h5>
+        <p>
+            I occasionally act as an architect in projects. I enjoy this too, but I prefer projects where we don't get bogged down in planning and whiteboard sessions. The best work is done when one is allowed to be exploratory. I never act as a project manager. I have some ideas on the subject that I happily talk about, but I have colleagues that are far better at the subject. I currently work at Implema AB - a Swedish IT Consultancy focused on ERP systems and surrounding IT systems.
+        </p>
+    </div>
+{% endblock %}
 
-            .top-section {
-                background-color: white;
-                padding: 3rem 0 3rem 0;
-            }
-
-            .navbar {
-                max-width: var(--page-max-width);
-                margin: 0 auto;
-
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 2rem;
-            }
-
-            .nav-logo {
-                width: 19rem;
-            }
-
-            .nav-button {
-                text-decoration: none;
-                color: black;
-                margin-left: 4rem;
-                font-size: 1.5rem;
-            }
-
-            .blog-intro {
-                position: relative;
-                max-width: var(--page-max-width);
-                margin: 11vh auto 0 auto;
-                padding: 0 0 2rem 0;
-                height: 21rem;
-            }
-            
-            .blog-intro-circle {
-                position: absolute;
-                right: 8%;
-                width: 17rem;
-                height: 17rem;
-                border-radius: 50%;
-                background: linear-gradient(
-                    205deg,
-                    rgba(0,122,255,0) 10%,
-                    rgba(0,122,255,0.4) 60%,
-                    rgba(0,122,255,1) 100%
-                );
-            }
-
-            .blog-intro-title {
-                margin: 3.5rem 16% 0 10%;
-                position: absolute;
-                z-index: 2;
-            }
-
-            .content-section {
-                margin: 4vh 0 0 0;
-                padding: 1vh 0 0 0;
-            }
-
-            .content {
-                max-width: var(--page-max-width);
-                margin: 0 auto 0 auto;
-            }
-
-        </style>
-    </head>
-    
-    <body>
-        <div class="top-section">
-            <div class="navbar">
-                <img class="nav-logo" src="media/light-logo.svg" alt="Jens Wallgren Logo"/>
-                <div class="buttons">
-                    <a class="nav-button" href="/blog">Blog</a>
-                    <a class="nav-button" href="/about">About</a>
-                </div>
-            </div>
-
-            <div class="blog-intro">
-                <div class="blog-intro-circle"></div>
-                <img class="blog-intro-title" src="media/light-blog-intro-title.svg"/>
-            </div>
-        </div>
-
-        <div class="content-section">
-            <div class="content">
-                <p>
-                    I'm building solutions for a suite of different clients. I work with various technologies - some because I love them, some because they make sense within the context of the client I am working with. C#, Azure, JS, React, Python, SAP, ABAP, UI5 (Fiori), Cordova. I've spent a lot of free time mucking around with C and C++ (although mainly C).
-                </p>
-                <h5>Programmer first. Architect second</h5>
-                <p>
-                    I occasionally act as an architect in projects. I enjoy this too, but I prefer projects where we don't get bogged down in planning and whiteboard sessions. The best work is done when one is allowed to be exploratory. I never act as a project manager. I have some ideas on the subject that I happily talk about, but I have colleagues that are far better at the subject. I currently work at Implema AB - a Swedish IT Consultancy focused on ERP systems and surrounding IT systems.
-                </p>
-            </div>
-        </div>
-    </body>
-</html>
