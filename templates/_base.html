@@ -43,6 +43,7 @@
                 color: black;
                 margin-left: 4rem;
                 font-size: 1.5rem;
+                cursor: pointer;
             }
 
             .blog-intro {
@@ -91,8 +92,24 @@
             <div class="navbar">
                 <img class="nav-logo" src="media/light-logo.svg" alt="Jens Wallgren Logo"/>
                 <div class="buttons">
-                    <a class="nav-button" href="/blog">Blog</a>
-                    <a class="nav-button" hx-get="/about.html" hx-select=".content" hx-target=".content-section" hx-swap="innerHTML">
+                    <a
+                        class="nav-button"
+                        hx-get="/"
+                        hx-push-url="/"
+                        hx-select=".content"
+                        hx-target=".content-section"
+                        hx-swap="innerHTML"
+                    >
+                        Blog
+                    </a>
+                    <a
+                        class="nav-button"
+                        hx-get="/about.html"
+                        hx-push-url="about"
+                        hx-select=".content"
+                        hx-target=".content-section"
+                        hx-swap="innerHTML"
+                    >
                         About
                     </a>
                 </div>
