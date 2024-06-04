@@ -34,7 +34,7 @@ jobs:
         run: pip install staticjinja
 
       - name: Apply jinja2 templates
-        run: staticjinja build --outpath out
+        run: python build.py
 
 
       - name: Setup Pages
