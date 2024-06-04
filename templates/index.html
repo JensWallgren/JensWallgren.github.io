@@ -1,21 +1,23 @@
 {% extends "_base.html" %}
 
 {% block banner %}
-    <div class="blog-intro">
-        <div class="blog-intro-circle"></div>
-        <img class="blog-intro-title" src="media/light-blog-intro-title.svg"/>
-    </div>
+  <div class="blog-intro">
+    <div class="blog-intro-circle"></div>
+    <img class="blog-intro-title" src="media/light-blog-intro-title.svg"/>
+  </div>
 {% endblock %}
 
 {% block content %}
-    <div class="content">
-        {% for post in blog_posts %}
-            <div class="blog-post">
-                <h2>{{ post.title }}</h2>
-                <p>{{ post.date }}</p>
-                <p>{{ post.content }}</p>
-            </div>
-        {% endfor %}
-    </div>
+  <div class="content">
+
+    {% for post in blog_posts %}
+      <div class="blog-post">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.date }}</p>
+        <p>{{ post.content }}</p>
+      </div>
+    {% endfor %}
+
+  </div>
 {% endblock %}
 
