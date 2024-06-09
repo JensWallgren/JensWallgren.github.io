@@ -1,6 +1,19 @@
 <!DOCTYPE html>
-<hmtl>
+<hmtl lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jens Wallgren">
+    <meta name="description" content="Jens Wallgren's personal website">
+    <meta property="og:title" content="Jens Wallgren">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Jens Wallgren">
+    <meta property="og:description" content="Jens Wallgren's personal website">
+    <meta property="og:image" content="media/light-logo.svg">
+    <meta property="og:url" content="/">
+    <meta property="og:type" content="website">
+
+
     <title>Jens Wallgren</title>
 
     <script src="/dependencies/htmx.js"></script>
@@ -95,7 +108,7 @@
           <a
             class="nav-button"
             hx-get="/"
-            hx-push-url="/"
+            hx-push-url="true"
             hx-select=".content"
             hx-target=".content-section"
             hx-swap="innerHTML"
@@ -105,7 +118,7 @@
           <a
             class="nav-button"
             hx-get="/about.html"
-            hx-push-url="about"
+            hx-push-url="true"
             hx-select=".content"
             hx-target=".content-section"
             hx-swap="innerHTML"
