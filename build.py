@@ -6,7 +6,7 @@ import os
 from staticjinja import Site
 
 if __name__ == "__main__":
-  use_reloader = sys.argv[1] if len(sys.argv) > 1 else False
+  use_reloader = True if len(sys.argv) > 1 else False
   now = datetime.datetime.now()
 
   # Find all files in the templates/blog-posts directory
@@ -22,5 +22,6 @@ if __name__ == "__main__":
     "now": now,
     "blog_posts": blog_posts
   })
+  print(use_reloader)
   site.render(use_reloader=use_reloader)
 

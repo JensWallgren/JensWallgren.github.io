@@ -1,0 +1,80 @@
+:root {
+  --page-max-width: 56rem;
+}
+
+body {
+  font-family: Helvetica, sans-serif;
+  background-color: hsl(0, 0%, 95%);
+  padding: 0;
+  margin: 0;
+  display: grid;
+  height: 100vh;
+  font-size: 1.2rem;
+}
+
+.top-section {
+  background-color: white;
+  padding: 3rem 0 3rem 0;
+}
+
+.navbar {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.nav-logo {
+  width: 19rem;
+}
+
+.nav-button {
+  text-decoration: none;
+  color: black;
+  margin-left: 4rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.blog-intro {
+  position: relative;
+  max-width: var(--page-max-width);
+  margin: 11vh auto 0 auto;
+  padding: 0 0 2rem 0;
+  height: 21rem;
+}
+
+.blog-intro-circle {
+  position: absolute;
+  right: 8%;
+  width: 17rem;
+  height: 17rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    205deg,
+    rgba(0,122,255,0) 10%,
+    rgba(0,122,255,0.4) 60%,
+    rgba(0,122,255,1) 100%
+  );
+}
+
+.blog-intro-title {
+  margin: 3.5rem 16% 0 10%;
+  position: absolute;
+  z-index: 2;
+}
+
+.content-section {
+  margin: 4vh 0 0 0;
+  padding: 1vh 0 0 0;
+}
+
+.content {
+  max-width: var(--page-max-width);
+  margin: 0 auto 0 auto;
+}
+
+
