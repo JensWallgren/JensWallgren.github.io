@@ -44,11 +44,11 @@ body {
   margin: 0 auto 0 auto;
 }
 
-.blog-intro {
+.banner-section {
   background-color: white;
 }
 
-.blog-intro > * {
+.banner-section > * {
   position: relative;
   max-width: var(--page-max-width);
   margin: 0 auto 0 auto;
@@ -75,6 +75,27 @@ body {
   position: absolute;
   z-index: 2;
 }
+
+.about-intro-icon {
+  position: absolute;
+  right: 8%;
+  width: 17rem;
+  height: 17rem;
+  opacity: 0.7;
+}
+
+.about-intro-title {
+  margin: 2rem 18% 0 12%;
+  position: absolute;
+  z-index: 2;
+}
+
+.about-intro-subtitle {
+  margin: 16rem 40% 0 35%;
+  position: absolute;
+  z-index: 2;
+}
+
 
 .content-section {
 }
