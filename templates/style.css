@@ -1,5 +1,6 @@
 :root {
   --page-max-width: 56rem;
+  --color-primary: hsl(211, 100%, 50%);
 }
 
 body {
@@ -31,10 +32,40 @@ body {
   width: 19rem;
 }
 
+.buttons {
+  display: flex;
+}
+
+.nav-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 4rem;
+}
+
+.nav-button-container > .underline {
+  width: 0;
+  height: 0.2rem;
+  background-color: var(--color-primary);
+  transition:
+    width 0.2s ease-out,
+    opacity 0.2s ease-out;
+  margin-top: 0.2rem;
+  border-radius: 0.2rem;
+}
+
+.nav-button-container:hover > .underline {
+  width: 0.4rem;
+  opacity: 0.4;
+}
+
+.nav-button-container > .underline.active {
+  width: 100%;
+}
+
 .nav-button {
   text-decoration: none;
   color: black;
-  margin-left: 4rem;
   font-size: 1.5rem;
   cursor: pointer;
 }

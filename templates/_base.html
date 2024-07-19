@@ -18,33 +18,55 @@
 
     <script src="/dependencies/htmx.js"></script>
     <link rel="stylesheet" href="style.css">
+
+    <script>
+      let underlineNavButton = () => {
+        let url = window.location.pathname;
+        let navButtons = document.querySelectorAll('.nav-button');
+
+        navButtons.forEach(button => {
+          let underline = button.parentElement.querySelector('.underline');
+
+          if (button.getAttribute('hx-get') === url) {
+            setTimeout(() => underline.classList.add('active'), 100);
+          } else {
+            underline.classList.remove('active');
+          }
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', underlineNavButton);
+      document.body.addEventListener('htmx:afterSwap', underlineNavButton);
+    </script>
   </head>
 
   <body>
+
     <div class="top-section">
       <div class="navbar">
         <img class="nav-logo" src="media/light-logo.svg" alt="Jens Wallgren Logo"/>
         <div class="buttons">
-          <a
-            class="nav-button"
-            hx-get="/"
-            hx-push-url="true"
-            hx-select=".content"
-            hx-target=".content-section"
-            hx-swap="innerHTML"
-          >
-            Blog
-          </a>
-          <a
-            class="nav-button"
-            hx-get="/about.html"
-            hx-push-url="true"
-            hx-select=".content"
-            hx-target=".content-section"
-            hx-swap="innerHTML"
-          >
-            About
-          </a>
+
+          <div class="nav-button-container">
+            <a class="nav-button" hx-get="/" hx-push-url="true" hx-select=".content"
+              hx-target=".content-section"
+              hx-swap="innerHTML"
+            >
+              Blog
+            </a>
+            <div class="underline"></div>
+          </div>
+
+          <div class="nav-button-container">
+            <a class="nav-button" hx-get="/about.html" hx-push-url="true" hx-select=".content"
+              hx-target=".content-section"
+              hx-swap="innerHTML"
+            >
+              About
+            </a>
+            <div class="underline"></div>
+          </div>
+
         </div>
       </div>
     </div>
