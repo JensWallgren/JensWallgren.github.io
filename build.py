@@ -15,13 +15,13 @@ if __name__ == "__main__":
     for file in files:
       path = os.path.join(root, file)
       content = open(path).read()
-      metadata = json.loads(content.split('---')[0])
+      metadata = json.loads(content.split('{#')[1].split('#}')[0])
       blog_posts.append(metadata)
 
   site = Site.make_site(outpath='out', env_globals={
     "now": now,
     "blog_posts": blog_posts
   })
-  print(use_reloader)
+
   site.render(use_reloader=use_reloader)
 
