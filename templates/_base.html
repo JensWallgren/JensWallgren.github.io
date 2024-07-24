@@ -44,9 +44,15 @@
 
     <div class="top-section">
       <div class="navbar">
-        <img class="nav-logo" src="/media/light-logo.svg" alt="Jens Wallgren Logo"/>
-        <div class="buttons">
+        <img class="nav-logo" src="/media/light-logo.svg" alt="Jens Wallgren Logo"
+          hx-get="/"
+          hx-push-url="true"
+          hx-select=".content"
+          hx-target=".content-section"
+          hx-swap="innerHTML"
+        />
 
+        <div class="buttons">
           <div class="nav-button-container">
             <a class="nav-button" hx-get="/" hx-push-url="true" hx-select=".content"
               hx-target=".content-section"

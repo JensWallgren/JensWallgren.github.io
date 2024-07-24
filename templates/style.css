@@ -11,6 +11,8 @@ body {
   display: grid;
   height: 100vh;
   font-size: 1.2rem;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 .top-section {
@@ -29,6 +31,7 @@ body {
 }
 
 .nav-logo {
+  cursor: pointer;
   width: 19rem;
 }
 

@@ -16,6 +16,12 @@
           <h2>{{ post.title }}</h2>
           <p>{{ post.date }}</p>
           <p>{{ post.content }}</p>
+          <button hx-get="/blog-posts/{{ post.fileName }}" hx-push-url="true" hx-select=".content"
+            hx-target=".content-section"
+            hx-swap="innerHTML"
+          >
+            Read more
+          </button>
         </div>
       {% endfor %}
     </div>
