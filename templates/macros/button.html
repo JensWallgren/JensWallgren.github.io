@@ -1,0 +1,10 @@
+{% macro button(url, label, icon) %}
+  <div class="jw-button" hx-get="{{ url }}" hx-push-url="true"
+    hx-select=".content"
+    hx-target=".content-section"
+    hx-swap="innerHTML"
+  >
+    <img src="{{ icon }}"/>
+    {{ label }}
+  </div>
+{% endmacro %}

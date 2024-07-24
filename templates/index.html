@@ -1,5 +1,6 @@
 {% extends "_base.html" %}
 
+{% from 'macros/button.html' import button %}
 
 {% block content %}
   <div class="content">
@@ -16,12 +17,14 @@
           <h2>{{ post.title }}</h2>
           <p>{{ post.date }}</p>
           <p>{{ post.content }}</p>
-          <button hx-get="/blog-posts/{{ post.fileName }}" hx-push-url="true" hx-select=".content"
+          <div class="button read-more" hx-get="/blog-posts/{{ post.fileName }}" hx-push-url="true"
+            hx-select=".content"
             hx-target=".content-section"
             hx-swap="innerHTML"
           >
+            <img src="media/icons/tabler/arrow-right-white.svg">
             Read more
-          </button>
+          </div>
         </div>
       {% endfor %}
     </div>
