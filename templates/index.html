@@ -14,9 +14,10 @@
     <div class="content-body max-width">
       {% for post in blog_posts %}
         <div class="blog-post">
-          <h2>{{ post.title }}</h2>
-          <p>{{ post.date }}</p>
-          <p>{{ post.content }}</p>
+          <div class="title">{{ post.title }}</div>
+          <div class="subtitle">{{ post.subtitle }}</div>
+          <div class="date">{{ post.date }}</div>
+          <div>{{ post.content }}</div>
           <div class="button read-more" hx-get="/blog-posts/{{ post.fileName }}" hx-push-url="true"
             hx-select=".content"
             hx-target=".content-section"

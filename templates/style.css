@@ -177,6 +177,30 @@ body {
   --arrow-offset: -1.9rem;
 }
 
+.blog-post {
+  margin-top: 3rem;
+}
+
+.blog-post .title {
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+
+.blog-post .subtitle {
+  font-weight: 500;
+  opacity: 0.7;
+  font-size: 1.5rem;
+}
+
+.blog-post .date {
+  margin-top: 0.3rem;
+  font-size: 1.6rem;
+}
+
+.blog-post .button {
+  margin-top: 0.9rem;
+  font-weight: 500;
+}
 
 .button img {
   position: absolute;
@@ -186,7 +210,7 @@ body {
 
   transform: translateX(calc(var(--arrow-offset) - 0.4rem));
 
-  --transition-duration: 0.4s;
+  --transition-duration: 0.2s;
   transition:
     transform var(--transition-duration) ease-out,
     opacity var(--transition-duration) linear;
