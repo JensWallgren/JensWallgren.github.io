@@ -1,6 +1,10 @@
 :root {
   --page-max-width: 56rem;
   --color-primary: hsl(211, 100%, 50%);
+  --color-primary-filter:
+    brightness(0) saturate(100%) invert(26%) sepia(98%) saturate(2674%)
+    hue-rotate(203deg) brightness(109%) contrast(104%);
+  --navbar-height: 5.2rem;
 }
 
 body {
@@ -16,17 +20,31 @@ body {
 }
 
 .top-section {
-  background-color: white;
-  padding: 2rem 0 2.2rem 0;
+  position: fixed;
+  z-index: 1000;
+  height: var(--navbar-height);
+  width: 100%;
+  display: flex;
+  background-color: hsla(0, 0%, 100%, 0.8);
+
+  --blur-size: 0.6rem;
+  backdrop-filter: blur(var(--blur-size));
+  -webkit-backdrop-filter: blur(var(--blur-size));
 }
 
 .navbar {
+  width: 100%;
   max-width: var(--page-max-width);
   margin: 0 auto;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.navbar-top-background {
+  background-color: white;
+  height: var(--navbar-height);
 }
 
 .nav-logo {
@@ -71,6 +89,7 @@ body {
   font-size: 1.5rem;
   cursor: pointer;
 }
+
 
 .max-width {
   max-width: var(--page-max-width);
@@ -148,9 +167,32 @@ body {
 }
 
 .button {
+  display: flex;
+  align-items: center;
+  width: fit-content;
   cursor: pointer;
-  background-color: var(--color-primary);
-  color: white;
+  color: var(--color-primary);
   border-radius: 0.3rem;
-  padding: 0.2rem 0.3rem;
+
+  --arrow-offset: -1.9rem;
+}
+
+
+.button img {
+  position: absolute;
+  filter: var(--color-primary-filter);
+  margin-right: 0.4rem;
+  opacity: 0;
+
+  transform: translateX(calc(var(--arrow-offset) - 0.4rem));
+
+  --transition-duration: 0.4s;
+  transition:
+    transform var(--transition-duration) ease-out,
+    opacity var(--transition-duration) linear;
+}
+
+.button:hover img {
+  transform: translateX(var(--arrow-offset));
+  opacity: 1;
 }
