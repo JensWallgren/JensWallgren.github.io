@@ -220,3 +220,10 @@ body {
   transform: translateX(var(--arrow-offset));
   opacity: 1;
 }
+
+.code-container {
+  background-color: hsl(200, 7%, 18%);
+  color: hsl(164, 20%, 96%);
+  border-radius: 1rem;
+  padding: 1rem;
+}
