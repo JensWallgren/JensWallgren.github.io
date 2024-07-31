@@ -110,8 +110,19 @@ body {
   position: relative;
   max-width: var(--page-max-width);
   margin: 0 auto 0 auto;
-  padding: 2rem 0 2rem 0;
-  height: 21rem;
+  padding: 5rem 0 2rem 0;
+  height: 24rem;
+}
+
+@keyframes fade-in-blog-intro-circle {
+    from {
+      opacity: 0;
+      filter: blur(5rem);
+    }
+    to {
+      opacity: 1;
+      filter: blur(2rem);
+    }
 }
 
 .blog-intro-circle {
@@ -123,27 +134,34 @@ body {
   background: linear-gradient(
     205deg,
     rgba(0,122,255,0) 10%,
-    rgba(0,122,255,0.4) 60%,
+    rgba(0,122,255,0.4) 48%,
     rgba(0,122,255,1) 100%
   );
+  opacity: 0;
+  animation: fade-in-blog-intro-circle 3s 0.3s cubic-bezier(.08,.69,.33,1) forwards;
 }
 
 .blog-intro-title {
-  margin: 3.5rem 16% 0 10%;
+  margin: 3.5rem 16% 0 16%;
   position: absolute;
   z-index: 2;
 }
 
+@keyframes fade-in-about-intro-icon {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 0.7; transform: translateY(-0.2rem); }
+}
 .about-intro-icon {
   position: absolute;
   right: 8%;
   width: 17rem;
   height: 17rem;
-  opacity: 0.7;
+  opacity: 0;
+  animation: fade-in-about-intro-icon 3s 0.2s cubic-bezier(.08,.69,.33,1) forwards;
 }
 
 .about-intro-title {
-  margin: 2rem 18% 0 12%;
+  margin: 2rem 23% 0 20%;
   position: absolute;
   z-index: 2;
 }
@@ -212,8 +230,8 @@ body {
 
   --transition-duration: 0.2s;
   transition:
-    transform var(--transition-duration) ease-out,
-    opacity var(--transition-duration) linear;
+  transform var(--transition-duration) ease-out,
+  opacity var(--transition-duration) linear;
 }
 
 .button:hover img {
@@ -227,3 +245,4 @@ body {
   border-radius: 1rem;
   padding: 1rem;
 }
+
