@@ -7,23 +7,30 @@
     <div class="banner-section">
       <div>
         <div class="blog-intro-circle"></div>
-        <img class="blog-intro-title" src="media/light-blog-intro-title.svg"/>
+        <img class="blog-intro-title" src="/media/light-blog-intro-title.svg">
       </div>
     </div>
 
     <div class="content-body max-width">
       {% for post in blog_posts %}
         <div class="blog-post">
-          <div class="title">{{ post.title }}</div>
-          <div class="subtitle">{{ post.subtitle }}</div>
-          <div class="date">{{ post.date }}</div>
-          <div>{{ post.content }}</div>
+          <div class="post-header">
+            <div class="title">{{ post.title }}</div>
+            <div class="category">
+              <img src="/media/icons/tabler/{{ post.category | lower }}.svg">
+              <div>{{ post.category }}</div>
+            </div>
+          </div>
+          <div class="post-subheader">
+            <div class="subtitle">{{ post.subtitle }}</div>
+            <div class="date">{{ post.date }}</div>
+          </div>
           <div class="button read-more" hx-get="/blog-posts/{{ post.fileName }}" hx-push-url="true"
             hx-select=".content"
             hx-target=".content-section"
             hx-swap="innerHTML"
           >
-            <img src="media/icons/tabler/arrow-right.svg">
+            <img src="/media/icons/tabler/chevron-right.svg">
             <div>Read more</div>
           </div>
         </div>
