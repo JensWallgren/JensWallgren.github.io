@@ -21,6 +21,8 @@ if __name__ == "__main__":
 
       blog_posts.append(metadata)
 
+  # Sort the blog posts by their date in the metadata
+  blog_posts = sorted(blog_posts, key=lambda x: x['date'], reverse=True)
 
   site = Site.make_site(outpath='out', env_globals={
     "now": now,
