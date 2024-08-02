@@ -15,12 +15,17 @@
     <div class="content-body max-width">
       <h1 style="margin-top: 5.6rem">Website architecture</h1>
       <p>
-        This is my first blog post - ever really. Originally I thought I might write something placeholder-ish. But since I'm working on this website right now, I might as well detail how I've built this website.
+        This is my first blog post - ever really. Originally I thought I might launch this website with just a "Hello World" in the blog post archive. But since I'm working on this website right now, I might as well type up some details on it. In other words, there's not something particularly interesting about this website and how it's built. This is just a warm-up post if you will.
       </p>
 
-      <h2>Trying out simple</h2>
+      <h2>I come from big frameworks</h2>
       <p>
-        I've previously written web applications in js-heavy Single Page Application frameworks. I've done some framework free projects in my spare time, but my professional work has mostly I've used SAP's OpenUI5 framework and a tiny amount of React. Both of these frameworks are giant pieces of software. And it is hard to reason about what happens in the background. And I often feel helpless when trying to optimize load times and performance. I can be very productive in these frameworks though, so I don't want to paint it all as negative, but for my website I really want to build something where I understand all parts of it.
+        I've previously written web applications in js-heavy Single Page Application frameworks. Truth be told, I would have had a much easier time cobbling this together in one of these frameworks, since I've worked with them a lot. In my professional carreer I've mostly used SAP's OpenUI5 framework for web stuff. It fits in nicely at the tech environment of the company where I've worked for a few years (given that we're very SAP heavy). I've also done a bit of React, along with component libraries such as Microsoft's Fluent UI. These frameworks are giant pieces of software. And it is hard to reason about what happens in the background. Optimizing load times and having fun with animations, interactions can be tricky. I can be very productive in these frameworks, but I wanted more control.
+      </p>
+
+      <h2>A simple static website</h2>
+      <p>
+        To be frank, this is not a particularly complicated website. So I wanted the architecture to reflect that. I shouldn't need any fancy stuff. The website should be fully static, it should be fast and simple without heavy load times. I toyed around with the idea of fully doing it in HTML/JS/CSS only - no dependencies and no build steps. But I ended up using templating instead. I simply didn't want full page reloads on all page navigations. Since I wanted to host on a static webserver, I'm using static templating.
       </p>
 
       <h2>Architecture</h2>
@@ -35,23 +40,23 @@
 
       <h2>Static hosting</h2>
       <p>
-        In short, this is the simplest way to host a website. Also, I was pretty set on using Github Pages to start with. It's a personal website and blog, so I don't see any need for website clients to post or upload anything to the website.
+        In short, this is the simplest way for me to host a website. Also, I was pretty set on using Github Pages to start with. It's a personal website and blog, so I don't see any need for clients to post or upload anything to the website.
       </p>
 
       <h2>Static templating</h2>
       <p>
-        I want my website to have some sort of layout - with a navbar and footer. And I want to be able to do things like listing all blog entries in lists. Since the website is static, I'm using static templating. I went with Python and jinja2 templates through a library called staticjinja. I know Python due to various small projects, but it's definitively time to brush up on these skills - given that a lot of LLM-adjacent tools and libraries are Python-exclusive or Python-first.
+        I want my website to have some sort of layout - with a navbar and footer. And as a started thinking about it - of course I wanted want to be able to do things like listing all blog entries. Since the website is static, I'm using static templating. I went with Python and jinja2 templates through a library called staticjinja. I know Python due to various small projects and scripts I've done over the years. It is however time to brush up on these skills - given that a lot of tools and libraries in the LLM are Python-exclusive or Python-first.
       </p>
       <p>
-        For blog posts I've been adding metadata like tags, title and category in a small metadata section at the top of each file. I've seen a lot of these types of systems be Yaml based, but I don't like Yaml. I decided to just make it a small section on top with a json document. For example:
+        For blog posts I've been adding metadata like tags, title and category in a small metadata section at the top of each file. I've seen a lot of these types of systems be Yaml based, but I don't like Yaml. I decided to just put a small json document in a Jinja2 comment at the top.
         <div class="code-container">
           <pre>
     {% raw %}
     {#
       {
-        "title": "Hello World",
-        "date": "2023-06-04",
-        "category": "General",
+        "title": "Website architecture",
+        "date": "2023-07-24",
+        "category": "Programming",
         "tags": ["Architecture", "HTMX", "Python"]
       }
     #}
@@ -68,7 +73,7 @@
 
       <h2>HTMX</h2>
       <p>
-        HTMX is not structly needed for the website in its current form. It gives me a simple enough way of avoiding full page reloads whenever the user navigates on the wbesite. I've also been curious about this library since it's a counter-reaction to the big js-heavy libraries, so I thought it was time to try it.
+        HTMX is not strictly needed for the website in its current form. It gives me a simple enough way of avoiding full page reloads whenever the user navigates on the website. I've been curious about this library since it's positioned as counter-reaction to the big js-heavy libraries, so I thought it was time to try it.
       </p>
 
       <h2>Going forward</h2>
@@ -77,7 +82,7 @@
 
         <h3>Migrate from staticjinja to using jinja2 directly</h3>
         <p>
-          This was something ready-made that allowed me to "just get going" with jinja2 templates. I'm mildly happy with it. It does get me watch functionality out-of-the-box for local development and it did save me writing the 'watch' code. But in the spirit of understanding the full architecture of the website I should definitively get rid of it. It also crashes randomly and needs to be restarted, and I don't feel like debugging this given that I can probably use the time to just migrate away from the tool.
+          Staticjinja was something ready-made that allowed me to "just get going" with Jinja2 templates. I'm mildly happy with it (it's OK). It gives me 'watch' functionality out-of-the-box for local development. But in the spirit of understanding the full architecture of the website I should definitively get rid of it. It also crashes randomly and needs to be restarted at times. I could probably debug this, but I don't feel like it since I could use the time to set up my own Jinja2 build/watch script myself.
         </p>
 
         <h3>Try a different templating engine</h3>
