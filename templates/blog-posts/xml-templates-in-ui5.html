@@ -2,7 +2,7 @@
   {
     "title": "XML templates in UI5",
     "subtitle": "A very underdocumented UI5 feature",
-    "date": "2023-06-03",
+    "date": "2023-08-02",
     "category": "Programming",
     "tags": ["Templates", "Web"]
   }
@@ -16,8 +16,283 @@
     <div class="content-body max-width">
       <h1>XML templates in UI5</h1>
       <p>
-        Many UI5 developers are familiar with the XML view syntax. It's a declarative way to define the structure of a UI5 application. But did you know that you can use XML templates to define the structure of your UI5 applications? In this blog post, we'll explore how to use XML templates in UI5.
+        At some point when building an UI5 application, I needed to create two separate pages:
+        <ul>
+          <li>A page for displaying invoice documents</li>
+          <li>A page for displaying order documents</li>
+        </ul>
+        These pages were going to display the exact same information. They were going to expose the same buttons and functionality. But on a <i>few</i> places - I needed different labels and icons. In other words, I was looking for a way of defining a "base" view that could be reused for both views.
       </p>
+
+      <h2>Such a feature must exist - right?</h2>
+      <p>
+        Turns out finding a way of doing this was harder than I thought. I could obviously do it if I defined my views via Javascript. But then I'd have a couple of team members that would be annoyed that one of the views in our web application looked and worked <b>completely</b> different from all other views. We were using XML Views for all other views.
+      </p>
+      <p class="note-box">
+        Of course, I could have also solved this via templating server-side. But this was a last resort for me, since we used no server-side templating at this point.
+      </p>
+      <p>
+        In the end, I did find a feature that seemed promising. Not much comprehensive information was available on it. The official documentation was very brief, and I didn't find a whole lot of 3rd party info on it either. I decided that once I get my blog up and running, would write down the details of how I'm using it.
+      </p>
+
+      <h2>XML preprocessor</h2>
+      <p>
+        When calling the create method of XMLView (via JS), there's a property called "preprocessors". It <i>is</i> possible to pass in a custom preprocessor here, but I have not explored this. Instead I use the default XML preprocessor. You use this by passing in an object with an "xml" property. This property should contain the configuration details that you wish to pass to the XML preprocessor.
+        <div class="code-container">
+          <pre>
+XMLView.create(
+  viewName: "My.Project.BaseView",
+  preprocessors: {
+    xml: {
+      // XML preprocessor config here
+    },
+  },
+);
+          </pre>
+        </div>
+      </p>
+      <p>
+        You can pass in models to the preprocessor that can be used in the preprocessor step. You can give these models any name you want. Let's say we define a simple model called "preprocessorModel". It would look like this:
+      </p>
+      <div class="code-container">
+        <pre>
+XMLView.create(
+  viewName: "My.Project.BaseView",
+  preprocessors: {
+    xml: {
+      preprocessorModel: new JSONModel({
+        docType: "Invoice",
+      }),
+    },
+  },
+);
+        </pre>
+      </div>        
+        
+      <p>
+        Your base view is now being preprocessed by the XML preprocessor, which has access to a model called "preprocessorModel". The default XML preprocessor looks for any references to this model and resolves them to values in the preprocessor step:
+      </p>
+
+      <div class="code-container">
+        <pre>
+{{
+'<Title
+  text="{preprocessorModel>/docType} list:"
+  titleStyle="H1"
+/>' | escape
+}}
+        </pre>
+      </div>
+
+      <p>
+        Which the preprocessor will resolve to become the following before the XML dpocument is actually parsed and resolved into an actual UI5 view.
+      </p>
+
+      <div class="code-container">
+        <pre>
+{{
+'<Title
+  text="Invoice list:"
+  titleStyle="H1"
+/>' | escape
+}}
+        </pre>
+      </div>
+
+      <p>
+        You can name the model anything you want, but since your view might have other models in it (that are for the preprocessor) you probably want to give your preprocessor models names that are obvious or distinctive. I've chosen to give my preprocessor model the distinctive name '_' to clearly distinguish it from the other models in my view. I will use this naming scheme throughout the rest of this blog post.
+      </p>
+
+      <p>
+        Here's how it looks like when defining the view:
+      </p>
+
+      <div class="code-container">
+        <pre>
+XMLView.create(
+  viewName: "My.Project.BaseView",
+  preprocessors: {
+    xml: {
+      _: new JSONModel({
+        docType: "Invoice",
+      }),
+    },
+  },
+);
+        </pre>
+      </div> 
+
+      <p>
+        Here's how it looks like when referring to the model in the XML views:
+      </p>
+      <div class="code-container">
+        <pre>
+{{
+'<Title
+  text="{_>/docType} list:"
+  titleStyle="H1"
+/>' | escape
+}}
+        </pre>
+      </div>
+
+
+      <h2>Binding expressions</h2>
+      <p>
+        Of course, you can use binding expressions as well. For instance:
+      </p>
+
+      <div class="code-container">
+        <pre>
+{{
+'<Button
+  type="Emphasized"
+  text="{=
+    ${_>/docType} === \'Invoice\' ? \'Pay\' :
+    ${_>/docType} === \'Order\' ? \'Deliver\' :
+    \'\'
+  }"
+  icon="{=
+    ${_>/docType} === \'Invoice\' ? \'sap-icon://money-bills\' :
+    ${_>/docType} === \'Order\' ? \'sap-icon://shipping-status\' :
+    \'\'
+  }"
+/>' | escape
+}}
+        </pre>
+      </div>
+
+      <h2>This does not work with routers</h2>
+      <p>
+        The example above shows how you can register preprocessors when creating a view in JS via the 'create' method. So how do you do it if you're using a router in you UI5 app? Turns out there's no way of registering and configuring the preprocessor directly in the router config. Instead you'll have to point the router to a JS-defined view (preferrably a typed view), which in turn calls the 'XMLView.create' method.
+      </p>
+
+      <p>
+        If you're not familiar with a typed view, it is simply a view defined via extending the base 'View' class of UI5:
+      </p>
+
+      <div class="code-container">
+        <pre>
+sap.ui.define([
+  "sap/ui/core/mvc/View",
+], function (View) {
+  "use strict";
+
+  return View.extend("My.Project.InvoiceWrapperView", {
+    // Overload or configure details here
+  });
+});
+        </pre>
+      </div>
+
+      <p>
+        You can control the controls (or the 'content' if you will) that are rendered by the view via the createContent method implementation. In our case, we want to render our XML View with the preprocessor. So we will implement a 'createContent' method that does just that:
+      </p>
+
+      <div class="code-container">
+        <pre>
+sap.ui.define([
+  "sap/ui/core/mvc/View",
+  "sap/ui/core/mvc/XMLView",
+  "sap/ui/model/json/JSONModel",
+], function (
+  View,
+  XMLView,
+  JSONModel
+) {
+  "use strict";
+
+  return View.extend("My.Project.InvoiceWrapperView", {
+    createContent: function() {
+      return XMLView.create({
+        viewName: "My.Project.BaseView",
+        preprocessors: {
+          xml: {
+            preprocessorModel: new JSONModel({
+              docType: "Invoice",
+            }),
+          },
+        },
+      });
+    },
+  });
+});
+        </pre>
+      </div>
+
+      <p>
+        You can then point your router target to the typed view. You can refer to the UI5 module that contains the wrapper view by using the 'module:' syntax in the viewName string. For example, if I defined the InvoiceWrapperView in the file '/path/to/InvoiceWrapperView.js' then I can point the router target to it like this:
+      </p>
+
+      <div class="code-container">
+        <pre>
+"TargetInvoiceView": {
+  "viewId": "My.Project.InvoiceView",
+  "viewName": "module:MyResourceRoot/path/to/InvoiceWrapperView",
+},
+        </pre>
+      </div>
+
+      <p>
+        This will point the router to our typed view:
+        <ul>
+          <li>Wich in turn loads our base XML view</li>
+          <li>Runs the preprocessor on the base view</li>
+          <li>Runs the preprocessor with a model that defines 'docType' as 'Invoice'</li>
+        </ul>
+      </p>
+
+      <h2>Defining the Order view</h2>
+
+      <p>
+        To create the order view we would create a wrapper view for it. We'd put it in a file at '/path/to/OrderWrapperView.js':
+      </p>
+
+      <div class="code-container">
+        <pre>
+sap.ui.define([
+  "sap/ui/core/mvc/View",
+  "sap/ui/core/mvc/XMLView",
+  "sap/ui/model/json/JSONModel",
+], function (
+  View,
+  XMLView,
+  JSONModel
+) {
+  "use strict";
+
+  return View.extend("My.Project.OrderWrapperView", {
+    createContent: function() {
+      return XMLView.create({
+        viewName: "My.Project.BaseView",
+        preprocessors: {
+          xml: {
+            preprocessorModel: new JSONModel({
+              docType: "Order",
+            }),
+          },
+        },
+      });
+    },
+  });
+});
+        </pre>
+      </div>
+
+      <p>
+        Then we'd point a separate router target at this view:
+      </p>
+
+      <div class="code-container">
+        <pre>
+"TargetOrderView": {
+  "viewId": "My.Project.OrderView",
+  "viewName": "module:MyResourceRoot/path/to/OrderWrapperView",
+},
+        </pre>
+      </div>
+
+
     </div>
   </div>
 {% endblock %}
