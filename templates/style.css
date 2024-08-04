@@ -36,6 +36,7 @@ body {
   width: 100%;
   max-width: var(--page-max-width);
   margin: 0 auto;
+  padding: 0 3rem;
 
   display: flex;
   justify-content: space-between;
@@ -93,7 +94,8 @@ body {
 
 .max-width {
   max-width: var(--page-max-width);
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
+  padding: 0 3rem;
 }
 
 .content-body {
@@ -111,25 +113,21 @@ body {
   max-width: var(--page-max-width);
   margin: 0 auto 0 auto;
   padding: 5rem 0 2rem 0;
-  height: 24rem;
+  padding-top: clamp(1rem, 5vw, 5rem);
+  height: clamp(12rem, 43vw, 24rem);
 }
 
 @keyframes fade-in-blog-intro-circle {
-    from {
-      opacity: 0.0;
-      filter: blur(7rem);
-    }
-    to {
-      opacity: 1;
-      filter: blur(2rem);
-    }
+    from { opacity: 0.0; filter: blur(7rem); }
+    to { opacity: 1; filter: blur(2rem); }
 }
 
 .blog-intro-circle {
   position: absolute;
-  right: 8%;
-  width: 17rem;
-  height: 17rem;
+  right: max(8%, 4rem);
+  --size: min(17rem, 33vw);
+  width: var(--size);
+  height: var(--size);
   border-radius: 50%;
   background: linear-gradient(
     205deg,
@@ -142,7 +140,10 @@ body {
 }
 
 .blog-intro-title {
-  margin: 3.5rem 16% 0 16%;
+  margin-top: 3.5rem;
+  --margin-sides: clamp(0.3rem, 12vw, 7rem);
+  margin-left: var(--margin-sides);
+  margin-right: var(--margin-sides);
   position: absolute;
   z-index: 2;
 }
@@ -154,14 +155,17 @@ body {
 .about-intro-icon {
   position: absolute;
   right: 8%;
-  width: 17rem;
-  height: 17rem;
+  --size: clamp(5rem, 35vw, 17rem);
+  width: var(--size);
+  height: var(--size);
   opacity: 0;
   animation: fade-in-about-intro-icon 3s 0.2s cubic-bezier(.08,.69,.33,1) forwards;
 }
 
 .about-intro-title {
-  margin: 2rem 23% 0 20%;
+  margin-top: 2.5rem;
+  margin-left: clamp(0.3rem, 18vw, 9rem);
+  margin-right: clamp(0.3rem, 19vw, 12rem);
   position: absolute;
   z-index: 2;
 }
