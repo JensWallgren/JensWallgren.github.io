@@ -308,7 +308,8 @@ body {
   scrollbar-width: thin;
   scrollbar-color: hsl(0, 0%, 50%) hsl(164, 7%, 18%);
   margin: 0 0 0.7rem 0;
-  padding: 1rem 2rem 0 2rem;
+  padding: 1rem 1.7rem 0 1.7rem;
+  font-size: 1.4rem;
 }
 
 .blog-title {
