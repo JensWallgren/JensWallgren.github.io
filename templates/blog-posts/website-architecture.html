@@ -49,26 +49,23 @@
       </p>
       <p>
         For blog posts I've been adding metadata like tags, title and category in a small metadata section at the top of each file. I've seen a lot of these types of systems be Yaml based, but I don't like Yaml. I decided to just put a small json document in a Jinja2 comment at the top.
-        <div class="code-container">
-          <pre>
-    {% raw %}
-    {#
-      {
-        "title": "Website architecture",
-        "date": "2023-07-24",
-        "category": "Programming",
-        "tags": ["Architecture", "HTMX", "Python"]
-      }
-    #}
+      </p>
+      <div class="code-container">
+        <pre><code class="language-jinja2">{% raw %}{#
+  {
+    "title": "Website architecture",
+    "date": "2023-07-24",
+    "category": "Programming",
+    "tags": ["Architecture", "HTMX", "Python"]
+  }
+#}
 
-    {% extends "_base.html" %}
+{% extends "_base.html" %}
 
-    (...)
+(...)
 
-    (actual blog post template here)
-    {% endraw %}
-          </pre>
-        </div>
+(actual blog post template here){% endraw %}</code></pre>
+      </div>
 
 
       <h2>HTMX</h2>

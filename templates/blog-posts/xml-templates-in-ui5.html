@@ -42,24 +42,24 @@
       <p>
         When calling the create method of XMLView (via JS), there's a property called "preprocessors". It <i>is</i> possible to pass in a custom preprocessor here, but I have not explored this. Instead I use the default XML preprocessor. You use this by passing in an object with an "xml" property. This property should contain the configuration details that you wish to pass to the XML preprocessor.
         <div class="code-container">
-          <pre>
-XMLView.create(
+          <pre><code class="language-javascript">{{
+'XMLView.create(
   viewName: "My.Project.BaseView",
   preprocessors: {
     xml: {
       // XML preprocessor config here
     },
   },
-);
-          </pre>
+);'
+          }}</code></pre>
         </div>
       </p>
       <p>
         You can pass in models to the preprocessor that can be used in the preprocessor step. You can give these models any name you want. Let's say we define a simple model called "preprocessorModel". It would look like this:
       </p>
       <div class="code-container">
-        <pre>
-XMLView.create(
+        <pre><code class="language-javascript">{{
+'XMLView.create(
   viewName: "My.Project.BaseView",
   preprocessors: {
     xml: {
@@ -68,8 +68,8 @@ XMLView.create(
       }),
     },
   },
-);
-        </pre>
+);'
+        }}</code></pre>
       </div>        
         
       <p>
@@ -77,14 +77,12 @@ XMLView.create(
       </p>
 
       <div class="code-container">
-        <pre>
-{{
+        <pre><code class="language-xml">{{
 '<Title
   text="{preprocessorModel>/docType} list:"
   titleStyle="H1"
 />' | escape
-}}
-        </pre>
+        }}</code></pre>
       </div>
 
       <p>
@@ -92,14 +90,12 @@ XMLView.create(
       </p>
 
       <div class="code-container">
-        <pre>
-{{
+        <pre><code class="language-xml">{{
 '<Title
   text="Invoice list:"
   titleStyle="H1"
 />' | escape
-}}
-        </pre>
+        }}</code></pre>
       </div>
 
       <p>
@@ -111,8 +107,8 @@ XMLView.create(
       </p>
 
       <div class="code-container">
-        <pre>
-XMLView.create(
+        <pre><code class="language-javascript">{{
+'XMLView.create(
   viewName: "My.Project.BaseView",
   preprocessors: {
     xml: {
@@ -121,22 +117,20 @@ XMLView.create(
       }),
     },
   },
-);
-        </pre>
+);'
+        }}</code></pre>
       </div> 
 
       <p>
         Here's how it looks like when referring to the model in the XML views:
       </p>
       <div class="code-container">
-        <pre>
-{{
+        <pre><code class="language-xml">{{
 '<Title
   text="{_>/docType} list:"
   titleStyle="H1"
 />' | escape
-}}
-        </pre>
+        }}</code></pre>
       </div>
 
 
@@ -146,8 +140,7 @@ XMLView.create(
       </p>
 
       <div class="code-container">
-        <pre>
-{{
+        <pre><code class="language-xml">{{
 '<Button
   type="Emphasized"
   text="{=
@@ -161,8 +154,7 @@ XMLView.create(
     \'\'
   }"
 />' | escape
-}}
-        </pre>
+        }}</code></pre>
       </div>
 
       <h2>This does not work with routers</h2>
@@ -175,8 +167,8 @@ XMLView.create(
       </p>
 
       <div class="code-container">
-        <pre>
-sap.ui.define([
+        <pre><code class="language-javascript">{{
+'sap.ui.define([
   "sap/ui/core/mvc/View",
 ], function (View) {
   "use strict";
@@ -184,8 +176,8 @@ sap.ui.define([
   return View.extend("My.Project.InvoiceWrapperView", {
     // Overload or configure details here
   });
-});
-        </pre>
+});'
+        }}</code></pre>
       </div>
 
       <p>
@@ -193,8 +185,8 @@ sap.ui.define([
       </p>
 
       <div class="code-container">
-        <pre>
-sap.ui.define([
+        <pre><code class="language-javascript">{{
+'sap.ui.define([
   "sap/ui/core/mvc/View",
   "sap/ui/core/mvc/XMLView",
   "sap/ui/model/json/JSONModel",
@@ -219,8 +211,8 @@ sap.ui.define([
       });
     },
   });
-});
-        </pre>
+});'
+        }}</code></pre>
       </div>
 
       <p>
@@ -228,11 +220,12 @@ sap.ui.define([
       </p>
 
       <div class="code-container">
-        <pre>
-"TargetInvoiceView": {
+        <pre><code class="language-javascript">{{
+'"TargetInvoiceView": {
   "viewId": "My.Project.InvoiceView",
   "viewName": "module:MyResourceRoot/path/to/InvoiceWrapperView",
-},
+},'
+        }}</code></pre>
         </pre>
       </div>
 
@@ -252,8 +245,8 @@ sap.ui.define([
       </p>
 
       <div class="code-container">
-        <pre>
-sap.ui.define([
+        <pre><code class="language-javascript">{{
+'sap.ui.define([
   "sap/ui/core/mvc/View",
   "sap/ui/core/mvc/XMLView",
   "sap/ui/model/json/JSONModel",
@@ -278,8 +271,8 @@ sap.ui.define([
       });
     },
   });
-});
-        </pre>
+});'
+        }}</code></pre>
       </div>
 
       <p>
@@ -287,11 +280,12 @@ sap.ui.define([
       </p>
 
       <div class="code-container">
-        <pre>
-"TargetOrderView": {
+        <pre><code class="language-javascript">{{
+'"TargetOrderView": {
   "viewId": "My.Project.OrderView",
   "viewName": "module:MyResourceRoot/path/to/OrderWrapperView",
-},
+},' | escape
+        }}</code></pre>
         </pre>
       </div>
 
