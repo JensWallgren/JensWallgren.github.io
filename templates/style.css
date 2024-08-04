@@ -8,12 +8,12 @@
   --page-padding: clamp(1.5rem, 8vw, 3rem);
 }
 
+
 body {
   font-family: Helvetica, sans-serif;
   background-color: hsl(0, 0%, 95%);
   padding: 0;
   margin: 0;
-  display: grid;
   height: 100vh;
   font-size: 1.2rem;
   overflow-y: scroll;
@@ -299,7 +299,16 @@ body {
   background-color: hsl(200, 7%, 18%);
   color: hsl(164, 20%, 96%);
   border-radius: 1rem;
-  padding: 1rem 2rem 0.3rem 3.4rem;
+  padding: 1rem 0.7rem 0rem 0.7rem;
+  overflow-x: auto;
+}
+
+.code-container pre {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(0, 0%, 50%) hsl(164, 7%, 18%);
+  margin: 0 0 0.7rem 0;
+  padding: 1rem 2rem 0 2rem;
 }
 
 .blog-title {
