@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="/style.css">
 
     <script>
+      let onNavButtonClick = (event) => {
+        Prism.highlightAll();
+        underlineNavButton();
+      };
+
       let underlineNavButton = () => {
         let url = window.location.pathname;
         let navButtons = document.querySelectorAll('.nav-button');
@@ -36,7 +41,7 @@
       };
 
       document.addEventListener('DOMContentLoaded', underlineNavButton);
-      document.body.addEventListener('htmx:afterSwap', underlineNavButton);
+      document.body.addEventListener('htmx:afterSwap', onNavButtonClick);
     </script>
 
     <link href="/dependencies/prism.css" rel="stylesheet" />
