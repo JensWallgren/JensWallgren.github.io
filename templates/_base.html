@@ -31,6 +31,7 @@
 
         navButtons.forEach(button => {
           let underline = button.parentElement.querySelector('.underline');
+          if (!underline) return;
 
           if (button.getAttribute('hx-get') === url) {
             setTimeout(() => underline.classList.add('active'), 40);
@@ -42,6 +43,11 @@
 
       document.addEventListener('DOMContentLoaded', underlineNavButton);
       document.body.addEventListener('htmx:afterSwap', onNavButtonClick);
+      document.body.addEventListener('click', (event) => {
+        if (!event.target.closest('.dropdown')) {
+          document.querySelector('#tools-dropdown').classList.remove('active');
+        }
+      });
     </script>
 
     <link href="/dependencies/prism.css" rel="stylesheet" />
@@ -51,9 +57,10 @@
     <script src="/dependencies/prism.js"></script>
 
     <div class="top-section">
+      <div class="navbar-blur-background"></div>
       <div class="navbar">
         <picture>
-          <source srcset="/media/light-logo-small.svg" media="(max-width: 44rem)">
+          <source srcset="/media/light-logo-small.svg" media="(max-width: 48rem)">
           <img class="nav-logo" src="/media/light-logo.svg" alt="Jens Wallgren Logo"
             hx-get="/"
             hx-push-url="true"
@@ -72,6 +79,29 @@
               Blog
             </a>
             <div class="underline"></div>
+          </div>
+
+          <div id="tools-dropdown" class="dropdown">
+            <div class="nav-button-container">
+              <script>
+                function toolsButton() {
+                  document.querySelector('#tools-dropdown').classList.toggle('active');
+                };
+              </script>
+              <div class="nav-button" onclick="toolsButton()"> 
+                Tools
+                <img src="/media/icons/tabler/chevron-right.svg" class="dropdown-chevron" />
+              </div>
+            </div>
+            <div class="dropdown-content">
+              <a class="dropdown-button" hx-get="/tools/microsoft-json-dates.html" hx-push-url="true"
+                hx-select=".content"
+                hx-target=".content-section"
+                hx-swap="innerHTML"
+              >
+                Microsoft JSON Dates
+              </a>
+            </div>
           </div>
 
           <div class="nav-button-container">
