@@ -422,3 +422,4 @@ body {
   font-weight: 500;
 }
 
+{% include '/tools/microsoft-json-dates/_style.css' %}

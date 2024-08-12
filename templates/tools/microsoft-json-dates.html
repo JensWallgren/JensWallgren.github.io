@@ -1,13 +1,84 @@
-
 {% extends "_base.html" %}
 
 {% block content %}
+<script>
+  let intervalId = null;
 
-  <div class="content">
-    <div class="content-body max-width">
-      <h1 class="blog-title">Work in Progress</h1>
-      <h3 class="blog-subtitle">Swing by at a later date...</h3>
+  function writeJsonDate(dateObj) {
+    let unixTimestamp = Math.floor(dateObj.getTime() / 1000) * 1000;
+    document.getElementById('mjd-value').innerHTML = `/Date(${unixTimestamp})/`;
+
+    let date = dateObj.toISOString().split('T')[0];
+    let time = dateObj.toTimeString().split(' ')[0];
+    document.getElementById('mjd-date-value').innerHTML = date;
+    document.getElementById('mjd-time-value').innerHTML = time;
+  }
+
+  let currentDateTime = () => writeJsonDate(new Date());
+
+
+  document.body.addEventListener('htmx:load', function (e) {
+    // When page load via url: the target is the body. When via HTMX: the target is mjd-page
+    let element = e.detail.elt;
+    if (element.tagName === 'BODY' || element.id === 'mjd-page') {
+      startInterval();
+    }
+  });
+
+  let startInterval = () => {
+    currentDateTime();
+    if (!intervalId) {
+      intervalId = setInterval(currentDateTime, 1000);
+    }
+    document.querySelector('.mjd-button.play img').src = '/media/icons/tabler/player-stop.svg';
+  }
+
+  let stopInterval = () => {
+    clearInterval(intervalId);
+    intervalId = null;
+    document.querySelector('.mjd-button.play img').src = '/media/icons/tabler/player-play.svg';
+  }
+
+  document.body.addEventListener('htmx:beforeSwap', function (e) {
+    if (e.detail.target.id !== 'mjd-page') {
+      stopInterval();
+    }
+  });
+
+  function jsonDateToClipboard() {
+    navigator.clipboard.writeText(document.getElementById('mjd-value').innerHTML);
+  }
+</script>
+
+<div id="mjd-page" class="content">
+  <div class="content-body max-width microsoft-json-dates">
+    <!--
+      <h1 class="title">Microsoft JSON Dates</h1>
+      <h2 class="subtitle">I have to deal with this date format all the time. They are annoying, so I built this.</h2>
+    -->
+
+    <div class="mjd-value-widget">
+      <div class="mjd-value-container">
+        <div class="mjd-time-equiv">
+          <div id="mjd-date-value"></div>
+          <div id="mjd-time-value"></div>
+        </div>
+        <div id="mjd-value"></div>
+      </div>
+      <div class="mjd-button-container">
+        <div class="mjd-button play" onclick="intervalId ? stopInterval() : startInterval()">
+          <img src="/media/icons/tabler/player-stop.svg">
+        </div>
+        <div class="mjd-button pause" onclick="jsonDateToClipboard()">
+          <img class="mjd-copy" src="/media/icons/tabler/copy.svg">
+        </div>
+      </div>
     </div>
+
+    <!--
+      <input class="mjd-input">
+    -->
   </div>
+</div>
 
 {% endblock %}
