@@ -41,15 +41,28 @@
         });
       };
 
-      document.addEventListener('DOMContentLoaded', underlineNavButton);
+      document.addEventListener('DOMContentLoaded', () => {
+        underlineNavButton();
+        loadContentScript(document.querySelector('.content'));
+      });
+
+      function loadContentScript(content) {
+        let scriptPath = content.getAttribute('data-script');
+        if (scriptPath) {
+          let oldScript = document.head.querySelector(`script[src="${scriptPath}"]`);
+          oldScript && oldScript.remove();
+
+          let script = document.createElement('script');
+          script.src = scriptPath;
+          document.head.appendChild(script);
+        }
+      }
+
       document.body.addEventListener('htmx:afterSwap', (e) => {
         onNavButtonClick();
-        // Load the script at the path of the new page
-        let scriptPath = e.detail.pathInfo.requestPath.replace('.html', '/script.js');
-        let script = document.createElement('script');
-        script.src = scriptPath;
-        document.head.appendChild(script);
+        loadContentScript(e.detail.target.children[0]);
       });
+
       document.body.addEventListener('click', (event) => {
         if (!event.target.closest('.dropdown')) {
           document.querySelector('#tools-dropdown').classList.remove('active');
@@ -78,6 +91,16 @@
         </picture>
 
         <div class="buttons">
+          <div class="nav-button-container">
+            <a class="nav-button" hx-get="/" hx-push-url="true" hx-select=".content"
+              hx-target=".content-section"
+              hx-swap="innerHTML"
+            >
+              Blog
+            </a>
+            <div class="underline"></div>
+          </div>
+
           <div id="tools-dropdown" class="dropdown">
             <div class="nav-button-container">
               <script>
@@ -90,7 +113,6 @@
                 <img src="/media/icons/tabler/chevron-right.svg" class="dropdown-chevron" />
               </div>
             </div>
-
             <div class="dropdown-content">
               <a class="dropdown-button" hx-get="/tools/microsoft-json-dates.html" hx-push-url="true"
                 hx-select=".content"
@@ -100,15 +122,6 @@
                 Microsoft JSON Dates
               </a>
             </div>
-          </div>
-          <div class="nav-button-container">
-            <a class="nav-button" hx-get="/" hx-push-url="true" hx-select=".content"
-              hx-target=".content-section"
-              hx-swap="innerHTML"
-            >
-              Blog
-            </a>
-            <div class="underline"></div>
           </div>
 
           <div class="nav-button-container">
