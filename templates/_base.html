@@ -43,24 +43,10 @@
 
       document.addEventListener('DOMContentLoaded', () => {
         underlineNavButton();
-        loadContentScript(document.querySelector('.content'));
       });
-
-      function loadContentScript(content) {
-        let scriptPath = content.getAttribute('data-script');
-        if (scriptPath) {
-          let oldScript = document.head.querySelector(`script[src="${scriptPath}"]`);
-          oldScript && oldScript.remove();
-
-          let script = document.createElement('script');
-          script.src = scriptPath;
-          document.head.appendChild(script);
-        }
-      }
 
       document.body.addEventListener('htmx:afterSwap', (e) => {
         onNavButtonClick();
-        loadContentScript(e.detail.target.children[0]);
       });
 
       document.body.addEventListener('click', (event) => {
