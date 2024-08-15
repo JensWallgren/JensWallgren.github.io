@@ -47,4 +47,5 @@ function jsonDateToClipboard() {
 }
 
 startInterval();
-document.querySelector('.mjd-value-widget').classList.add('show');
+document.querySelector('#mjd-page').classList.add('show');
+document.querySelector('.dropdown').classList.remove('active');

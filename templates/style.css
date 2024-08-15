@@ -39,6 +39,24 @@ body {
   --blur-size: 0.6rem;
 }
 
+.content-section {
+  min-height: 74vh;
+  font-size: 1.5rem;
+}
+
+.footer-section {
+  padding: 5rem 0 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.75;
+  font-size: clamp(0.9rem, 3.0vw, 1.15rem);
+}
+
+.footer-section img {
+  width: clamp(10rem, 34vw, 15rem);
+}
+
 .navbar-blur-background {
   position: absolute;
   width: 100%;
@@ -197,8 +215,6 @@ body {
 }
 
 .content-body {
-  margin-top: clamp(2.4rem, 8vw, 4rem);
-  font-size: 1.5rem;
 }
 
 
@@ -273,18 +289,6 @@ body {
   margin: 16rem 40% 0 35%;
   position: absolute;
   z-index: 2;
-}
-
-.footer-section {
-  padding: 8rem 0 2rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  opacity: 0.8;
-}
-
-.footer-logo {
-  width: 15rem;
 }
 
 .button {

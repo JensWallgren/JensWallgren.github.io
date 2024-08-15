@@ -1,3 +1,54 @@
+#mjd-page .title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin: 5.2rem 0.5rem 0.9rem 0.6rem;
+  color: hsl(0, 0%, 25%);
+
+  transition:
+    transform 0.5s 0.1s var(--smooth-ease-in),
+    opacity 0.5s 0.1s linear;
+  transform: translateY(1rem);
+  opacity: 0;
+}
+
+#mjd-page.show .title {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+#mjd-page .subtitle {
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: hsl(0, 0%, 46%);
+  line-height: 2.1rem;
+  margin: 0 clamp(0rem, 11vw, 7rem);
+
+  transition:
+    transform 0.5s 0.3s var(--smooth-ease-in),
+    opacity 0.5s 0.3s linear;
+  transform: translateY(1rem);
+  opacity: 0;
+}
+
+#mjd-page.show .subtitle {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+#mjd-page .subtitle i {
+  color: hsl(0, 0%, 33%);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.4rem;
+  white-space: nowrap;
+  transition: background-color 0.8s 1.0s linear;
+}
+
+#mjd-page.show .subtitle i {
+  background-color: hsla(145, 78%, 82%);
+}
+
 .microsoft-json-dates {
   display: flex;
   flex-direction: column;
@@ -10,7 +61,7 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   box-shadow: var(--smooth-shadow-small);
-  margin-top: 20vh;
+  margin-top: 5rem;
   margin-bottom: 20vh;
   display: flex;
   background-color: hsla(0, 0%, 10%);
@@ -20,12 +71,13 @@
   border-radius: 1.3rem;
 }
 
-.mjd-value-widget.show {
+#mjd-page.show .mjd-value-widget {
   opacity: 1;
 }
 
 #mjd-value {
   margin-top: 0.6rem;
+  font-family: monospace;
 }
 
 .mjd-time-equiv {
