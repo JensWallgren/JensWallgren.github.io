@@ -1,6 +1,6 @@
-.xtu-page img.full-width {
-  --margin-vertical: 2rem;
-  --margin-horizontal: clamp(0rem, 5vw - 1rem, 3rem);
+.xtu-page .full-width-svg {
+  --margin-vertical: 3.6rem;
+  --margin-horizontal: clamp(0rem, 5vw - 2.1rem, 3rem);
   margin-top: var(--margin-vertical);
   margin-bottom: var(--margin-vertical);
   margin-left: var(--margin-horizontal);
