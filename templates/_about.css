@@ -1,0 +1,32 @@
+.about-page .top-paragraph {
+  margin-top: clamp(3.0rem, 4.6vw, 4.5rem);
+}
+
+@keyframes fade-in-about-intro-icon {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 0.7; transform: translateY(-0.2rem); }
+}
+.about-intro-icon {
+  position: absolute;
+  right: 8%;
+  --size: clamp(5rem, 35vw, 17rem);
+  width: var(--size);
+  height: var(--size);
+  opacity: 0;
+  animation: fade-in-about-intro-icon 3s 0.2s cubic-bezier(.08,.69,.33,1) forwards;
+}
+
+.about-intro-title {
+  margin-top: 2.5rem;
+  margin-left: clamp(0.3rem, 15vw, 10rem);
+  margin-right: clamp(0.3rem, 19vw, 13rem);
+  position: absolute;
+  z-index: 2;
+}
+
+.about-intro-subtitle {
+  margin: 16rem 40% 0 35%;
+  position: absolute;
+  z-index: 2;
+}
+

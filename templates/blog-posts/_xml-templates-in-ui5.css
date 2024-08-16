@@ -1,0 +1,8 @@
+.xtu-page img.full-width {
+  --margin-vertical: 2rem;
+  --margin-horizontal: clamp(0rem, 5vw - 1rem, 3rem);
+  margin-top: var(--margin-vertical);
+  margin-bottom: var(--margin-vertical);
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+}
