@@ -184,8 +184,11 @@ body {
   transition: opacity 0.2s var(--smooth-ease-in);
 }
 
-.nav-button:hover {
-  opacity: 0.7;
+/* hover but only on non touch devices */
+@media (hover: hover) {
+  .nav-button:hover {
+    opacity: 0.7;
+  }
 }
 
 .dropdown-chevron {
@@ -227,8 +230,8 @@ body {
   max-width: var(--page-max-width);
   margin: 0 auto 0 auto;
   padding: 5rem 0 2rem 0;
-  padding-top: clamp(1rem, 5vw, 5rem);
-  height: clamp(12rem, 45vw, 24rem);
+  padding-top: clamp(1rem, 6vw, 8rem);
+  height: clamp(12rem, 45vw, 28rem);
 }
 
 @keyframes fade-in-blog-intro-circle {

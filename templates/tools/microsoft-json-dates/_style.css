@@ -1,8 +1,9 @@
 #mjd-page .title {
   text-align: center;
-  font-size: 2.2rem;
-  margin: 5.2rem 0.5rem 0.9rem 0.6rem;
+  font-size: clamp(2.2rem, 5vw, 2.7rem);
+  margin: 0 0.5rem 0.9rem 0.6rem;
   color: hsl(0, 0%, 25%);
+  margin-top: clamp(5.0rem, 9vw, 8.5rem);
 
   transition:
     transform 0.5s 0.1s var(--smooth-ease-in),
@@ -19,10 +20,11 @@
 #mjd-page .subtitle {
   text-align: center;
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: clamp(1.3rem, 3vw, 1.5rem);
   color: hsl(0, 0%, 46%);
-  line-height: 2.1rem;
+  line-height: clamp(2.1rem, 8vw, 2.8rem);
   margin: 0 clamp(0rem, 11vw, 7rem);
+  margin-top: clamp(0rem, 1vw, 1.5rem);
 
   transition:
     transform 0.5s 0.3s var(--smooth-ease-in),
