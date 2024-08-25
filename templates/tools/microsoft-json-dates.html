@@ -14,11 +14,14 @@
     <div class="mjd-value-widget">
       <div class="mjd-value-container">
         <div class="mjd-time-equiv">
-          <div id="mjd-date-value"></div>
-          <div id="mjd-time-value"></div>
+          <input id="mjd-date-value">
+          <input id="mjd-time-value">
         </div>
-        <div id="mjd-value"></div>
+        <div id="mjd-value">
+          <!-- This is filled via JS -->
+        </div>
       </div>
+
       <div class="mjd-button-container">
         <div class="mjd-button play" onclick="intervalId ? stopInterval() : startInterval()">
           <img src="/media/icons/tabler/player-stop.svg">
@@ -28,10 +31,6 @@
         </div>
       </div>
     </div>
-
-    <!--
-      <input class="mjd-input">
-    -->
   </div>
 </div>
 

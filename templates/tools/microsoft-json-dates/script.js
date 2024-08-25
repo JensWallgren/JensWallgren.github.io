@@ -6,8 +6,8 @@ function writeJsonDate(dateObj) {
 
   let date = dateObj.toISOString().split('T')[0];
   let time = dateObj.toTimeString().split(' ')[0];
-  document.getElementById('mjd-date-value').innerHTML = date;
-  document.getElementById('mjd-time-value').innerHTML = time;
+  document.getElementById('mjd-date-value').value = date;
+  document.getElementById('mjd-time-value').value = time;
 }
 
 function writeJsonDateNow() { writeJsonDate(new Date()) }
