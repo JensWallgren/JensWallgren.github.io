@@ -1,16 +1,26 @@
-console.log('Microsoft JSON Dates --- script.js');
 
 function writeJsonDate(dateObj) {
-  let unixTimestamp = Math.floor(dateObj.getTime() / 1000) * 1000;
-  document.getElementById('mjd-value').innerHTML = `/Date(${unixTimestamp})/`;
+  let elem = document.getElementById('mjd-value');
 
+  let unixTimestamp = Math.floor(dateObj.getTime() / 1000) * 1000;
+  elem.innerHTML = `/Date(${unixTimestamp})/`;
+
+}
+
+function writeTextDate(dateObj) {
   let date = dateObj.toISOString().split('T')[0];
   let time = dateObj.toTimeString().split(' ')[0];
   document.getElementById('mjd-date-value').value = date;
   document.getElementById('mjd-time-value').value = time;
+
+  document.querySelector('.mjd-time-equiv').classList.remove('error');
 }
 
-function writeJsonDateNow() { writeJsonDate(new Date()) }
+function writeJsonDateNow() {
+  let date = new Date();
+  writeJsonDate(date);
+  writeTextDate(date);
+}
 
 
 document.body.addEventListener('htmx:load', function (e) {
@@ -46,6 +56,32 @@ function jsonDateToClipboard() {
   navigator.clipboard.writeText(document.getElementById('mjd-value').innerHTML);
 }
 
+function inputToJsonDate() {
+  console.log('inputToJsonDate');
+  let date = document.getElementById('mjd-date-value').value;
+  let time = document.getElementById('mjd-time-value').value;
+  let dateObj = new Date(`${date}T${time}`);
+
+  if (isNaN(dateObj)) {
+    document.querySelector('.mjd-time-equiv').classList.add('error');
+  } else {
+    document.querySelector('.mjd-time-equiv').classList.remove('error');
+
+    // Trigger animation on date change
+    let jsonDate = document.getElementById('mjd-value');
+    jsonDate.classList.remove('animate');
+    void jsonDate.offsetHeight;
+    jsonDate.classList.add('animate');
+    writeJsonDate(dateObj);
+  }
+}
+
 startInterval();
 document.querySelector('#mjd-page').classList.add('show');
 document.querySelector('.dropdown').classList.remove('active');
+
+document.querySelector('#mjd-date-value').addEventListener('focus', () => stopInterval());
+document.querySelector('#mjd-time-value').addEventListener('focus', () => stopInterval());
+
+document.querySelector('#mjd-date-value').addEventListener('input', () => inputToJsonDate());
+document.querySelector('#mjd-time-value').addEventListener('input', () => inputToJsonDate());
