@@ -24,8 +24,11 @@
         <div class="mjd-button play" onclick="intervalId ? stopInterval() : startInterval()">
           <img src="/media/icons/tabler/player-stop.svg">
         </div>
-        <div class="mjd-button pause" onclick="jsonDateToClipboard()">
-          <img class="mjd-copy" src="/media/icons/tabler/copy.svg">
+        <div class="mjd-copy-wrapper">
+          <div class="mjd-copy-banner">Copied</div>
+          <div class="mjd-button pause" onclick="jsonDateToClipboard()">
+            <img class="mjd-copy" src="/media/icons/tabler/copy.svg">
+          </div>
         </div>
       </div>
     </div>

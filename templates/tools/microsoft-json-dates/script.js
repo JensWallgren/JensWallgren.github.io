@@ -53,6 +53,16 @@ document.body.addEventListener('htmx:beforeSwap', function (e) {
 
 function jsonDateToClipboard() {
   navigator.clipboard.writeText(document.getElementById('mjd-value').value);
+
+  const copyBanner = document.querySelector('.mjd-copy-banner');
+
+  // Show the banner
+  copyBanner.classList.add('show');
+
+  // Hide the banner after 2 seconds
+  setTimeout(() => {
+    copyBanner.classList.remove('show');
+  }, 2000);
 }
 
 function inputToJsonDate() {

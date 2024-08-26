@@ -150,9 +150,13 @@
 }
 
 .mjd-button-container {
-  margin-left: clamp(0.8rem, 4vw, 2.2rem);
+  margin-left: clamp(0.6rem, 4vw, 1.8rem);
   display: flex;
   align-items: center;
+}
+
+.mjd-copy-wrapper {
+  position: relative;
 }
 
 .mjd-button {
@@ -164,6 +168,26 @@
   padding: 0.7rem;
   margin-right: clamp(0.4rem, 1vw, 0.8rem);
   cursor: pointer;
+}
+
+/* Add these new styles */
+.mjd-copy-banner {
+  position: absolute;
+  top: -2.2rem;
+  left: 50%;
+  transform: translateX(-54%);
+  background-color: hsl(0, 0%, 17%);
+  color: hsl(0, 0%, 100%);
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.9rem;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.mjd-copy-banner.show {
+  opacity: 1;
 }
 
 .mjd-button img {
