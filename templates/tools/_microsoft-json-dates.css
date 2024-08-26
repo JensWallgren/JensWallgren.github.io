@@ -84,7 +84,6 @@
   justify-content: center;
 }
 
-
 .mjd-time-equiv {
   display: flex;
   justify-content: center;
@@ -116,7 +115,7 @@
     color 0.2s ease,
     border 0.2s ease,
     background 0.2s ease;
-  border: 0.15rem solid hsla(0, 0%, 50%, 0);
+  border: 1px solid hsla(0, 0%, 50%, 0);
 }
 
 .mjd-time-equiv input:focus{
@@ -182,3 +181,35 @@
   max-width: 20rem;
 }
 
+.mjd-value-input {
+  background: transparent;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  width: 24rem;
+  outline: none;
+  border-radius: 1.1rem;
+  padding: 0.4rem 0.7rem 0.4rem 1.4rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.mjd-value-input:hover {
+  background-color: hsla(0, 0%, 100%, 0.05);
+}
+
+.mjd-value-input:focus {
+  outline: none;
+  box-shadow: none;
+  background: hsla(0, 0%, 100%, 0.1);
+  color: rgba(248, 248, 247, 0.9);
+  border-color: hsla(0, 0%, 47%, 0.5);
+}
+
+.mjd-value-input.error {
+  background-color: hsla(51, 100%, 50%, 0.15) !important;
+}
+
+.mjd-time-equiv.animate input {
+  animation: mjd-value-update 0.4s var(--smooth-ease-in);
+}
