@@ -234,3 +234,51 @@
 .mjd-time-equiv.animate input {
   animation: mjd-value-update 0.4s var(--smooth-ease-in);
 }
+
+.mjd-time-input-wrapper {
+  position: relative;
+}
+
+.mjd-time-buttons {
+  position: absolute;
+  top: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.5s var(--smooth-ease-in);
+}
+
+.mjd-time-buttons.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mjd-time-buttons.show .mjd-time-button {
+  transform: translateY(0);
+}
+
+.mjd-time-button {
+  background-color: hsl(0, 0%, 23%);
+  color: hsl(0, 0%, 100%);
+  border: none;
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: 0 0.2rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(0.2rem);
+  box-shadow: var(--smooth-shadow-small);
+}
+
+.mjd-time-button:hover {
+  background-color: hsl(0, 0%, 30%);
+}

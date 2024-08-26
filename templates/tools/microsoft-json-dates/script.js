@@ -117,3 +117,29 @@ document.querySelector('#mjd-time-value').addEventListener('input', () => inputT
 
 document.querySelector('#mjd-value').addEventListener('focus', () => stopInterval());
 document.querySelector('#mjd-value').addEventListener('input', () => jsonDateToTextDate());
+
+function showTimeButtons() {
+  document.querySelector('.mjd-time-buttons').classList.add('show');
+}
+
+function hideTimeButtons() {
+  document.querySelector('.mjd-time-buttons').classList.remove('show');
+}
+
+function setTime(time) {
+  document.getElementById('mjd-time-value').value = time;
+  inputToJsonDate();
+  hideTimeButtons();
+}
+
+document.querySelector('#mjd-time-value').addEventListener('focus', showTimeButtons);
+document.querySelector('#mjd-time-value').addEventListener('blur', (e) => {
+  // Delay hiding the buttons to allow for clicks
+  setTimeout(hideTimeButtons, 200);
+});
+
+document.querySelectorAll('.mjd-time-button').forEach(button => {
+  button.addEventListener('click', (e) => {
+    setTime(e.target.dataset.time);
+  });
+});

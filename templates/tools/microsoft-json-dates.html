@@ -15,7 +15,14 @@
       <div class="mjd-value-container">
         <div class="mjd-time-equiv">
           <input autocomplete="off" id="mjd-date-value">
-          <input autocomplete="off" id="mjd-time-value">
+          <div class="mjd-time-input-wrapper">
+            <input autocomplete="off" id="mjd-time-value">
+            <div class="mjd-time-buttons">
+              <button class="mjd-time-button" data-time="00:00:00">00</button>
+              <button class="mjd-time-button" data-time="12:00:00">12</button>
+              <button class="mjd-time-button" data-time="23:59:59">23+</button>
+            </div>
+          </div>
         </div>
         <input type="text" id="mjd-value" class="mjd-value-input">
       </div>
