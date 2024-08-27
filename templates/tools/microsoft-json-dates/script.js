@@ -45,9 +45,10 @@ function stopInterval() {
   document.querySelector('.mjd-button.play img').src = '/media/icons/tabler/player-play.svg';
 }
 
-document.body.addEventListener('htmx:beforeSwap', function (e) {
-  if (e.detail.pathInfo.requestPath === e.detail.target.id !== 'mjd-page') {
+document.body.addEventListener('htmx:beforeSwap', function handleBeforeSwap(e) {
+  if (e.detail.target.id !== 'mjd-page') {
     stopInterval();
+    document.body.removeEventListener('htmx:beforeSwap', handleBeforeSwap);
   }
 });
 
@@ -55,14 +56,8 @@ function jsonDateToClipboard() {
   navigator.clipboard.writeText(document.getElementById('mjd-value').value);
 
   const copyBanner = document.querySelector('.mjd-copy-banner');
-
-  // Show the banner
   copyBanner.classList.add('show');
-
-  // Hide the banner after 2 seconds
-  setTimeout(() => {
-    copyBanner.classList.remove('show');
-  }, 2000);
+  setTimeout(() => copyBanner.classList.remove('show'), 2000);
 }
 
 function inputToJsonDate() {
