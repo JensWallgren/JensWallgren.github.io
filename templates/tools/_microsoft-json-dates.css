@@ -66,11 +66,28 @@
   margin-top: 5rem;
   margin-bottom: 20vh;
   display: flex;
+  align-items: center;
   background-color: hsla(0, 0%, 10%);
   color: hsl(72, 60%, 95%);
   padding: 1.5rem clamp(1.0rem, 5vw, 2.0rem);
   
   border-radius: 1.3rem;
+}
+
+@media (max-width: 40rem) {
+  .mjd-value-widget {
+    flex-direction: column;
+  }
+
+  .mjd-button-container {
+    margin-left: 0 !important;
+    margin-top: 1.2rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .mjd-button.play {
+    margin-right: 0.8rem !important;
+  }
 }
 
 #mjd-page.show .mjd-value-widget {
