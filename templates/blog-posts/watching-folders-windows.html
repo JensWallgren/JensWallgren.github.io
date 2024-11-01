@@ -1,0 +1,100 @@
+{#
+  {
+    "title": "How Watchdog does it",
+    "subtitle": "Watching files on Windows",
+    "date": "2023-10-31",
+    "category": "Programming",
+    "tags": ["Win32", "Python"]
+  }
+#}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+  <div class="content xtu-page">
+    <div class="content-body max-width">
+      <h1 class="blog-title">How Watchdog does it</h1>
+      <h3 class="blog-subtitle">Watching files on Windows</h3>
+      <p>
+        You've probably at some point been in contact with tools that have a "watch" or live reload option. At some point I got an itch to see how they did it. I figured at some point that I'd put together a build script for this website with such functionality (rather than relying on staticjinja). So I got the itch to figure out how one might accomplish this.
+      </p>
+
+      <h2>Jinja2 --> Watchdog</h2>
+      <p>
+        So I'm building this website using jinja2. The build tools I'm relying on use a Python library called Watchdog. I started digging from there.
+      </p>
+
+      <h2>Different Operating Systems</h2>
+      <p>
+        As one might imagine, such functionality is OS-specific. I might look at how this works in different OS:es in the future, but I'll stick to Windows for now, since it's the OS I have the most experience interfacing with its' low-level API.
+      </p>
+
+      <h2>Diving in</h2>
+      <p>
+        The simple Watchdog code that seems to be part of all examples goes something like this:
+        <div class="code-container">
+          <pre><code class="language-python">{{
+'import time
+
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
+
+class PrintEvent(FileSystemEventHandler):
+  def on_any_event(self, event):
+    print(event)
+
+observer = Observer()
+observer.schedule(PrintEvent(), ".")
+observer.start()
+
+try:
+  while True:
+    time.sleep(1)
+finally:
+  observer.stop()
+  observer.join()'
+          }}</code></pre>
+        </div>
+      </p>
+
+      <p>
+        To get going, what's important is that we create an Observer. We pass in an event handler class to it, but to figure out what Watchdog is doing we're clearly going to have to look in the Observer class.
+      </p>
+
+      <p>
+        The Observer class is set up in the src/watchdog/observers/__init.py file. We can see that different operating systems have different expose different Observer classes. The one we are interested in is imported from watchdog.observers.read_directory_changes.
+        <div class="code-container">
+          <pre><code class="language-python">{{
+'def _get_observer_cls() -&gt; ObserverType:
+  if platform.is_linux():
+    # (omitted) ...
+  elif platform.is_darwin():
+    # (omitted) ...
+  elif platform.is_windows():
+    try:
+      from watchdog.observers.read_directory_changes import WindowsApiObserver
+    except Exception:
+      warnings.warn("Failed to import `read_directory_changes`. Fall back to polling.", stacklevel=1)
+    else:
+      return WindowsApiObserver
+    elif platform.is_bsd():
+      # (omitted) ...
+
+    from watchdog.observers.polling import PollingObserver
+    return PollingObserver
+
+Observer = _get_observer_cls()'
+          }}</code></pre>
+        </div>
+      </p>
+
+      <h2>If you follow the trail</h2>
+      <p>
+        If you follow the trail for long enough, you'll find that what's being used is a win32 API called ReadDirectoryChangesW. That is -- the wide character version of ReadDirectoryChanges.
+        
+    </div>
+  </div>
+
+{% endblock %}
+
