@@ -1,0 +1,37 @@
+{#
+  {
+    "title": "You should colorize compiler output",
+    "subtitle": "An example for the MSVC compiler",
+    "date": "2023-11-02",
+    "category": "Programming",
+    "tags": ["MSVC", "C", "C++", "Compiler"]
+  }
+#}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+  <div class="content xtu-page">
+    <div class="content-body max-width">
+      <h1 class="blog-title"> {{ title }} </h1>
+      <h3 class="blog-subtitle"> {{ subtitle }} </h3>
+
+      <p>
+        Terminals have color support - of course. A lot of compilers don't.
+        I was reminded of this recently since I have a new computer and installed the MSVC compiler again after a long while.
+      </p>
+      
+      <p>
+        The MSVC output looks like this by default:
+      </p>
+      <img src="/media/color-cl/_cl.png" />
+
+      <p>
+        It's easy to miss the warning in this.
+        I mean - you can clearly see it by actively reading the output, but it's not something you glance and catch.
+        And for a loop that you go through over and over again - type, compile, type, compile - it's easy to miss.
+      </p>
+    </div>
+  </div>
+{% endblock %}
