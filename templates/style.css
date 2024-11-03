@@ -115,3 +115,13 @@ body {
   opacity: 0.6;
   font-weight: 500;
 }
+
+.full-width-image {
+  max-width: 100%;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

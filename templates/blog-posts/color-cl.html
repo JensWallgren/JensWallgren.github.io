@@ -1,7 +1,7 @@
 {#
   {
-    "title": "You should colorize compiler output",
-    "subtitle": "An example for the MSVC compiler",
+    "title": "Error Messages are the UI",
+    "subtitle": "The MSVC compiler output should be colorized",
     "date": "2023-11-02",
     "category": "Programming",
     "tags": ["MSVC", "C", "C++", "Compiler"]
@@ -25,13 +25,58 @@
       <p>
         The MSVC output looks like this by default:
       </p>
-      <img src="/media/color-cl/_cl.png" />
+      <img class="full-width-image" src="/blog-posts/color-cl/cl.png">
 
       <p>
         It's easy to miss the warning in this.
-        I mean - you can clearly see it by actively reading the output, but it's not something you glance and catch.
-        And for a loop that you go through over and over again - type, compile, type, compile - it's easy to miss.
+        It's clearly visible if you actively read the output, but it's not something you glance and catch.
+        And this is bad UI.
       </p>
+      
+      <h2>Compiler errors (and warnings) are the UI</h2>
+      <p>
+        When you're developing and using a compiler, you go through a loop of typing, compiling, fixing errors, and compiling again.
+        The error messages are <b><i>the way</i></b> you interact with the compiler.
+        I think a lot of compiler developers miss this point.
+        Of course, the compiler can be used as-is, all the information is there.
+        But what separates good UI from bad UI is that somebody is making an effort at improving
+        useability by various techniques, often visual cues.
+      </p>
+
+      <h2>Introducing color</h2>
+      <p>
+        Since I wanted this for myself, and wanted to see how much of a difference it makes, I implemented a Powershell wrapper function for cl.exe.
+        It runs the output through a series of regexes and colorizes, adds some emojis.
+        It's a quick hack, but in my opinion, it's a big improvement, and sort of shows what is being left on the table.
+      </p>
+
+      <img class="full-width-image" src="/blog-posts/color-cl/pretty-cl.png">
+      
+      <h2>Put a flag on it</h2>
+      <p>
+        There are probably reasons why this couldn't be the default behavior of cl.exe.
+        I'm sure there are a bunch of tooling that is dependent in some way on the formatting looking like it does,
+        or not containing any color codes.
+      </p>
+      <p>
+        Much like there's a /nologo flag, there could be a /pretty flag.
+        This feels like a very low cost feature that makes a whole lot of impact.
+      </p>
+
+      <h2>In the meantime...</h2>
+      <p>
+        I published my dumb Powershell wrapper thing on Github back when I made it.
+        It's a quickly hacked together thing, but it made my experience with cl.exe a lot better.
+        I'll leave you with the link and another comparison screenshot:
+      </p>
+
+      <p>
+        <a href="https://github.com/JensWallgren/Pretty-Cl">Pretty-Cl on Github</a>
+      </p>
+      
+      <div class="center">
+        <img class="full-width-image" src="/blog-posts/color-cl/pretty-cl-2.png">
+      </div>
     </div>
   </div>
 {% endblock %}

@@ -24,7 +24,6 @@ def contains_metadata(content: str) -> bool:
   return content.startswith('{#')
 
 def update_blog_posts():
-  # Find all files in the templates/blog-posts directory
   blog_posts = []
   for root, dirs, files in os.walk('templates/blog-posts'):
     for file in files:
