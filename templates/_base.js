@@ -3,7 +3,6 @@
 const url = window.location.pathname;
 const navButtons = document.querySelectorAll('.nav-button');
 
-debugger;
 navButtons.forEach(button => {
   let underline = button.parentElement.querySelector('.underline');
 

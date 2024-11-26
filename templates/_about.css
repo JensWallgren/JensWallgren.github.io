@@ -30,3 +30,13 @@
   z-index: 2;
 }
 
+.find-me-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.find-me-links div {
+  display: flex;
+  gap: 2rem;
+}

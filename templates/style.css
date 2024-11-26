@@ -23,7 +23,6 @@
   scrollbar-color: hsl(0, 0%, 89%) hsl(0, 0%, 98%);
 }
 
-
 body {
   font-family: Helvetica, sans-serif;
   background-color: hsl(0, 0%, 95%);
@@ -33,7 +32,6 @@ body {
   font-size: 1.2rem;
   overflow-y: scroll;
 }
-
 
 .top-section {
   position: fixed;
@@ -125,3 +123,4 @@ body {
   justify-content: center;
   align-items: center;
 }
+
