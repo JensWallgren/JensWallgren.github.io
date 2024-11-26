@@ -1,27 +1,29 @@
+import shutil
 import sys
-import datetime
+import time
 import json
 import os
 
-from staticjinja import Site
+from jinja2 import Environment, PackageLoader, FileSystemLoader
 from pathlib import Path
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
 
-class Blog(Site):
-  @staticmethod
-  def is_ignored_static(filename):
-    default_ignored = any(part.startswith(".") for part in Path(filename).parts)
-    ignored_extension = Path(filename).suffix == ".afdesign"
-    return default_ignored or ignored_extension
+media_extensions = (".png", ".jpg", ".jpeg", ".gif", ".svg")
+ignored_extensions = (".afdesign")
 
-  def is_ignored(self, filename):
-    return Blog.is_ignored_static(filename)
-  
+env = Environment(loader=FileSystemLoader('templates'))
 
-if __name__ == "__main__":
-  use_reloader = True if len(sys.argv) > 1 else False
-  now = datetime.datetime.now()
+def is_media_file(filename: str) -> bool:
+  return any(part.endswith(media_extensions) for part in Path(filename).parts)
 
-  # Find all files in the templates/blog-posts directory
+def is_ignored_file(filename: str) -> bool:
+  return any(part.endswith(ignored_extensions) for part in Path(filename).parts)
+
+def contains_metadata(content: str) -> bool:
+  return content.startswith('{#')
+
+def update_blog_posts():
   blog_posts = []
   for root, dirs, files in os.walk('templates/blog-posts'):
     for file in files:
@@ -35,15 +37,73 @@ if __name__ == "__main__":
       metadata['fileName'] = file
 
       blog_posts.append(metadata)
-
-
-  # Sort the blog posts by their date in the metadata
   blog_posts = sorted(blog_posts, key=lambda x: x['date'], reverse=True)
 
-  site = Blog.make_site(outpath='out', env_globals={
-    "now": now,
-    "blog_posts": blog_posts
-  })
+  template = env.get_template('index.html')
+  template.stream(blog_posts=blog_posts).dump('out/index.html')
 
-  site.render(use_reloader=use_reloader)
+
+def handle_file_change(is_directory: bool, src_path: str, event_type: str = "modified"):
+  if is_directory or is_ignored_file(src_path):
+    return
+
+  print(f"Processing {src_path}")
+  template_path = Path(src_path).relative_to('templates').as_posix()
+  out_path = "out/" + template_path
+
+  if event_type == "deleted":
+    print(f"Deleting {out_path}")
+    os.remove(out_path)
+    return
+
+  # Create output directory if it doesn't exist
+  os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+  if is_media_file(src_path):
+    print(f"Copying {out_path}")
+    shutil.copy(src_path, out_path)
+  elif src_path == 'templates/blog-posts/index.html':
+    update_blog_posts()
+  else:
+    print(f"Rendering {out_path}")
+    content = open(src_path).read()
+    metadata = {}
+    if contains_metadata(content):
+      metadata = json.loads(content.split('{#')[1].split('#}')[0])
+
+    template = env.get_template(template_path)
+    template.stream(**metadata).dump(out_path)
+
+    # IF it's a blog post, update the index
+    if template_path.startswith('blog-posts/'):
+      update_blog_posts()
+
+
+class FileChangeHandler(FileSystemEventHandler):
+  def __init__(self):
+    self.env = Environment(loader=FileSystemLoader('templates'))
+
+  def on_modified(self, event: FileSystemEvent):
+    handle_file_change(event.is_directory, event.src_path)
+    
+# On startup we clean the output directory and rerender everything fully
+shutil.rmtree('out', ignore_errors=True)
+
+# Render all files
+for path in Path('templates').rglob('*'):
+  if path.is_file():
+    handle_file_change(False, path.as_posix())
+
+
+if len(sys.argv) > 1 and sys.argv[1] == "watch":
+  observer = Observer()
+  observer.schedule(FileChangeHandler(), path='./templates', recursive=True)
+  observer.start()
+
+  try:
+    while True:
+      time.sleep(1)
+  except KeyboardInterrupt:
+    observer.stop()
+  observer.join()
 

@@ -87,6 +87,7 @@ body {
 }
 
 .code-container {
+  font-size: 1.1rem;
   background-color: hsl(200, 7%, 18%);
   color: hsl(164, 20%, 96%);
   border-radius: 1rem;
@@ -102,6 +103,15 @@ body {
   margin: 0;
   padding: 2.0rem 1.7rem 1.6rem 1.7rem;
   font-size: clamp(1.0rem, 3.0vw, 1.4rem);
+}
+
+.image-subtitle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: hsl(0deg, 0%, 50%);
+  font-style: italic;
 }
 
 .blog-title {

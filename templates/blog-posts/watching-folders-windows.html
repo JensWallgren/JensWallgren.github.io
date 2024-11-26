@@ -1,8 +1,8 @@
 {#
   {
-    "title": "How Watchdog does it",
-    "subtitle": "Watching files on Windows",
-    "date": "2023-10-31",
+    "title": "Under the hood of '--watch'",
+    "subtitle": "Following the trail of watchdog to win32",
+    "date": "2023-11-10",
     "category": "Programming",
     "tags": ["Win32", "Python"]
   }
@@ -14,86 +14,159 @@
 
   <div class="content xtu-page">
     <div class="content-body max-width">
-      <h1 class="blog-title">How Watchdog does it</h1>
-      <h3 class="blog-subtitle">Watching files on Windows</h3>
+      <h1 class="blog-title">{{ title }}</h1>
+      <h3 class="blog-subtitle">{{ subtitle }}</h3>
       <p>
-        You've probably at some point been in contact with tools that have a "watch" or live reload option. At some point I got an itch to see how they did it. I figured at some point that I'd put together a build script for this website with such functionality (rather than relying on staticjinja). So I got the itch to figure out how one might accomplish this.
+        You've probably at some point been in contact with tools that have a "watch" or live reload option. I've had an itch that I should have a look at how this happens. Is it all just polling for changes? Perhaps with some clever mechanism -- perhaps by hashing directory contents and update times. Or are there simply good APIs in the OS to do this. I figured the latter, but the source code of the tools I'm using is open-source, so let's have a look.
       </p>
 
       <h2>Jinja2 --> Watchdog</h2>
       <p>
-        So I'm building this website using jinja2. The build tools I'm relying on use a Python library called Watchdog. I started digging from there.
+        I'm building this website using jinja2. The build tools I'm relying on use a Python library called Watchdog. This library has multiple ways of for watching files. There are of course different implementations for different operating systems:
+      </p>
+
+      <div class="code-container">
+        <pre><code class="language-plaintext">{{
+'  Here is a list of implemented observer classes.:
+
+  ============== ================================ ==============================
+  Class          Platforms                        Note
+  ============== ================================ ==============================
+  |Inotify|      Linux 2.6.13+                    ``inotify(7)`` based observer
+  |FSEvents|     macOS                            FSEvents based observer
+  |Kqueue|       macOS and BSD with kqueue(2)     ``kqueue(2)`` based observer
+  |WinApi|       Microsoft Windows                Windows API-based observer
+  |Polling|      Any                              fallback implementation
+  ============== ================================ =============================='
+}}</pre></code>
+      </div>
+      <p class="image-subtitle">
+        From the code comments of the watchdog library
       </p>
 
       <h2>Different Operating Systems</h2>
       <p>
-        As one might imagine, such functionality is OS-specific. I might look at how this works in different OS:es in the future, but I'll stick to Windows for now, since it's the OS I have the most experience interfacing with its' low-level API.
+        In other words they have implemented OS-specific functionality based on OS APIs, but then also a polling method as fallback. I'll have a look at the Windows implementation for now, since it's the OS I have the most experience interfacing with its' low-level API.
       </p>
 
-      <h2>Diving in</h2>
+      <h2>Following the trail</h2>
       <p>
-        The simple Watchdog code that seems to be part of all examples goes something like this:
+        Following the trail leads one to the actual win32 API calls. The central call for observing changes to files in a directory seems to be the following:
         <div class="code-container">
           <pre><code class="language-python">{{
-'import time
-
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEvent, FileSystemEventHandler
-
-class PrintEvent(FileSystemEventHandler):
-  def on_any_event(self, event):
-    print(event)
-
-observer = Observer()
-observer.schedule(PrintEvent(), ".")
-observer.start()
-
-try:
-  while True:
-    time.sleep(1)
-finally:
-  observer.stop()
-  observer.join()'
-          }}</code></pre>
-        </div>
-      </p>
-
-      <p>
-        To get going, what's important is that we create an Observer. We pass in an event handler class to it, but to figure out what Watchdog is doing we're clearly going to have to look in the Observer class.
-      </p>
-
-      <p>
-        The Observer class is set up in the src/watchdog/observers/__init.py file. We can see that different operating systems have different expose different Observer classes. The one we are interested in is imported from watchdog.observers.read_directory_changes.
-        <div class="code-container">
-          <pre><code class="language-python">{{
-'def _get_observer_cls() -&gt; ObserverType:
-  if platform.is_linux():
-    # (omitted) ...
-  elif platform.is_darwin():
-    # (omitted) ...
-  elif platform.is_windows():
+'def read_directory_changes(handle: HANDLE, path: str, *, recursive: bool) -&gt; tuple[bytes, int]:
+    event_buffer = ctypes.create_string_buffer(BUFFER_SIZE)
+    nbytes = DWORD()
     try:
-      from watchdog.observers.read_directory_changes import WindowsApiObserver
-    except Exception:
-      warnings.warn("Failed to import `read_directory_changes`. Fall back to polling.", stacklevel=1)
-    else:
-      return WindowsApiObserver
-    elif platform.is_bsd():
-      # (omitted) ...
+        ReadDirectoryChangesW(
+            handle,
+            ctypes.byref(event_buffer),
+            len(event_buffer),
+            recursive,
+            WATCHDOG_FILE_NOTIFY_FLAGS,
+            ctypes.byref(nbytes),
+            None,
+            None,
+        )
+    except OSError as e:
+      # (... Omitted exception handling code the purposes of this blog post ...)
 
-    from watchdog.observers.polling import PollingObserver
-    return PollingObserver
-
-Observer = _get_observer_cls()'
+    return event_buffer.raw, int(nbytes.value)'
           }}</code></pre>
         </div>
+        <p class="image-subtitle">
+          From Watchdog, file: /src/watchdog/observers/read_directory_changes.py
+        </p>
       </p>
 
-      <h2>If you follow the trail</h2>
+      <h2>Using ReadDirectoryChangesW</h2>
       <p>
-        If you follow the trail for long enough, you'll find that what's being used is a win32 API called ReadDirectoryChangesW. That is -- the wide character version of ReadDirectoryChanges.
-        
+        So there it is - looks like the API used on Windows is simply ReadDirectoryChangesW (<a href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-readdirectorychangesw">MSDN</a>). I'm sure I could have found this via an LLM query or Google, but that would have been less fun. Let's write som C code and test it out.
+      </p>
+
+      <div class="code-container">
+        <pre><code class="language-clike">
+        {%- raw -%}
+#include &lt;stdint.h&gt;
+#include &lt;wchar.h&gt;
+#include &lt;locale.h&gt;
+#include &lt;windows.h&gt;
+
+const uint64_t bufsize = 4096;
+
+void printNotification(FILE_NOTIFY_INFORMATION *n) {
+setlocale(LC_ALL, "");
+
+for (;;) {
+  wchar_t name[MAX_PATH] = {0};
+  memcpy(name, n-&gt;FileName, n-&gt;FileNameLength);
+
+  wprintf(L"File Name: %ls\n", name);
+  wprintf(L"Action: %lu\n", n-&gt;Action);
+
+  if (n->NextEntryOffset == 0) { break; }
+  n = (FILE_NOTIFY_INFORMATION *)((char *)n + n-&gt;NextEntryOffset);
+}
+}
+
+
+int main() {
+  char *directory = ".\\files";
+
+  HANDLE dir = CreateFile(
+    directory, GENERIC_READ, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+    0, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
+
+  FILE_NOTIFY_INFORMATION *notif = (FILE_NOTIFY_INFORMATION *)VirtualAlloc(
+      0, bufsize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+
+  while (1) {
+    uint32_t bytes_returned;
+    int result = ReadDirectoryChangesW(
+      dir, notif, bufsize, 0,
+      FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME
+        | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_LAST_WRITE,
+      &bytes_returned, 0, 0);
+
+    if (result) {
+      printNotification(notif);
+    } else {
+      // Error handling -- print error via GetLastError()
+      break;
+    }
+  }
+
+  // We could clean up allocations here, but we're killing the process either way
+  return 0;
+}
+      {%- endraw -%}
+      </pre></code>
     </div>
+    <p class="image-subtitle">
+      Janky example win32 program to test the method
+    </p>
+
+    <p>
+      Compile this using cl (or clang or whatever your favorite compiler is). Run it, then after starting the program - if we edit the file <b>foo.txt</b>we should see something like below.
+    </p>
+
+    <div class="code-container">
+      <pre><code class="language-plaintext">
+        {%- raw -%}
+PS C:\tmp\watchdog> .\main.exe
+File Name: foo.txt
+Action: 3
+
+        {%- endraw -%}
+      </pre></code>
+    </div>
+    <p class="image-subtitle">
+      foo.txt was updated with Notepad
+    </p>
+
+    <p>
+      Now if you use this you'll quickly see that if you edit files via some editors like Neovim, you'll receive multiple events. This is since editors might do things like writing temporary files and then renaming them. This is all strategies to avoid corrupting or losing data, but it means to not have our event system working nicely we should introduce some sort of queue where we can pick up on these duplicate events. I guess that's where libraries like Watchdog come in handy.
+    </p>
   </div>
 
 {% endblock %}
