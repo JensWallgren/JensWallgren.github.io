@@ -141,15 +141,30 @@ body h3 {
   max-width: 100%;
 }
 
-.blog-smaller-image {
-  --margin-x: clamp(0rem, 6vw, 8rem);
-  margin-left: var(--margin-x);
-  margin-right: var(--margin-x);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  max-width: 100%;
+.blog-image-container {
+  margin: 2rem 0;
+  text-align: center;
 }
 
+.blog-image-container {
+  margin: 2rem 4rem;
+  text-align: center;
+}
+
+.blog-smaller-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.shadow {
+  box-shadow: var(--smooth-shadow-small);
+}
+
+.subtle {
+  opacity: 0.4;
+  font-weight: 400;
+  font-style: italic;
+}
 
 .center {
   display: flex;

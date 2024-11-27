@@ -10,7 +10,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 
 media_extensions = (".png", ".jpg", ".jpeg", ".gif", ".svg")
-ignored_extensions = (".afdesign")
+ignored_extensions = (".afdesign", ".afphoto", ".afdesign~lock~", ".afphoto~lock~")
 
 env = Environment(loader=FileSystemLoader('templates'))
 
