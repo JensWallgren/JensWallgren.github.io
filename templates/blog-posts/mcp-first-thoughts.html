@@ -217,6 +217,19 @@
         .switch-field label:first-of-type {
           border-right: 1px solid rgba(0, 0, 0, 0.12);
         }
+
+        /* Add pulsing animation */
+        @keyframes pulse {
+          0% { background-color: hsl(0, 0%, 100%); }
+          20% { background-color: hsl(0, 0%, 100%); }
+          50% { background-color: hsl(208, 100%, 83%); }
+          70% { background-color: hsl(0, 0%, 100%); }
+          100% { background-color: hsl(0, 0%, 100%); }
+        }
+
+        .pulsing {
+          animation: pulse 1s infinite;
+        }
       </style>
 
       <script>
@@ -226,8 +239,16 @@
               this.value === 'why' ? 'block' : 'none';
             document.getElementById('test-content').style.display = 
               this.value === 'test' ? 'block' : 'none';
+
+            // Remove pulsing animation once the "Hands-on impressions" button is clicked
+            if (this.value === 'test') {
+              document.querySelector('label[for="radio-test"]').classList.remove('pulsing');
+            }
           });
         });
+
+        // Add pulsing class to the "Hands-on impressions" button initially
+        document.querySelector('label[for="radio-test"]').classList.add('pulsing');
       </script>
     </div>
   </div>
