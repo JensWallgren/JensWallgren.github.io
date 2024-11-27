@@ -1,0 +1,56 @@
+{#
+  {
+    "title": "Standardized LLM integrations?",
+    "subtitle": "Model Context Protocol - first impressions",
+    "date": "2023-11-27",
+    "category": "Programming",
+    "tags": ["AI", "LLM", "Claude"],
+    "unlisted": true
+  }
+#}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+  <div class="content xtu-page">
+    <div class="content-body max-width">
+      <h1 class="blog-title">{{ title }}</h1>
+      <h3 class="blog-subtitle">{{ subtitle }}</h3>
+      <p>
+        Anthropic released something they call the Model Context Protocol. This is an open standard for building LLM integrations. It hopes to establish a standard integration protocol, meaning vendors of chat application integrations (i.e.) tools should only have to build one integration to support multiple chat apps:
+      </p>
+
+      <h2>Vendors build once</h2>
+      <p>
+        Of course - the promise to anyone who is building or maintaining a system or any record of data is this: You can build one MCP implementation, and suddenly you have integrations to "all the big LLM powered applications". Or of course, that last part is the hope of the MCP creators.
+      </p>
+
+      <img src="./mcp-first-thoughts/each-builds-one.svg" class="blog-smaller-image">
+      <p class="image-subtitle">
+        Each vendor of software builds one MCP server implementation
+      </p>
+
+      <h2>LLM apps implement support once</h2>
+      <p>
+        To anyone that is a vendor of a chat application the promise is very similar: implement support for MCP and suddenly you are integrated with a bunch of tools and data sources. Keep in mind that the list of these applications is not just ChatGPT, Claude, Gemini, Copilot. There's a plethora of "ChatGPT wrappers", applications built on top of the LLM providers. Any one of these can implement MCP support on their own, and all of a sudden you'll have a large catalog of "supported integrations" or data sources.
+      </p>
+
+      <img src="./mcp-first-thoughts/chat-application-implement-once.svg" class="blog-smaller-image">
+      <p class="image-subtitle">
+        LLM apps build MCP clients once
+      </p>
+
+      <h2>SaaS vendors should take note</h2>
+      <p>
+        It might be obvious that document storage services - services like Google Drive, Dropbox, box.com - has an obvious use case for this. But any SaaS vendor should perhaps follow this initiative. What if you could give users of your product the ability to interface with it through whatever AI chat that they are using?
+      </p>
+
+      <h2>Standards are as good as their uptake</h2>
+      <p>
+        Of course, any standard is only as good as its' uptake. Time will tell how MCP pans out, but the timing feels right to me. The ecosystem of LLM powered apps and systems that want to integrate into them has grown at an insane pace the last 2 years. The amount of duplicate work that has been done on building integrations to things like Google Drive, Git, etc. in different applications is staggering. There's definitively a place for a standard like MCP. Let's see where it goes!
+      </p>
+  </div>
+
+{% endblock %}
+

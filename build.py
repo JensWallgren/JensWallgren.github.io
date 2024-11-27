@@ -34,6 +34,8 @@ def update_blog_posts():
       content = open(path).read()
 
       metadata = json.loads(content.split('{#')[1].split('#}')[0])
+      if metadata.get("unlisted"):
+        continue
       metadata['fileName'] = file
 
       blog_posts.append(metadata)
@@ -86,24 +88,28 @@ class FileChangeHandler(FileSystemEventHandler):
   def on_modified(self, event: FileSystemEvent):
     handle_file_change(event.is_directory, event.src_path)
     
-# On startup we clean the output directory and rerender everything fully
-shutil.rmtree('out', ignore_errors=True)
 
-# Render all files
-for path in Path('templates').rglob('*'):
-  if path.is_file():
-    handle_file_change(False, path.as_posix())
+def main():
+  # On startup we clean the output directory and rerender everything fully
+  shutil.rmtree('out', ignore_errors=True)
+
+  # Render all files
+  for path in Path('templates').rglob('*'):
+    if path.is_file():
+      handle_file_change(False, path.as_posix())
 
 
-if len(sys.argv) > 1 and sys.argv[1] == "watch":
-  observer = Observer()
-  observer.schedule(FileChangeHandler(), path='./templates', recursive=True)
-  observer.start()
+  if len(sys.argv) > 1 and sys.argv[1] == "watch":
+    observer = Observer()
+    observer.schedule(FileChangeHandler(), path='./templates', recursive=True)
+    observer.start()
 
-  try:
-    while True:
-      time.sleep(1)
-  except KeyboardInterrupt:
-    observer.stop()
-  observer.join()
+    try:
+      while True:
+        time.sleep(1)
+    except KeyboardInterrupt:
+      observer.stop()
+    observer.join()
 
+if __name__ == "__main__":
+  main()
