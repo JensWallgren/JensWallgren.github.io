@@ -148,7 +148,7 @@ body h3 {
 }
 
 .blog-image-container {
-  margin: 2rem 4rem;
+  margin: 3rem clamp(0rem, calc(4vw - 1rem), 5rem) 2rem;
   text-align: center;
 }
 
