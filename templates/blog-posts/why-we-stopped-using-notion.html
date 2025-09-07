@@ -1,0 +1,104 @@
+{#
+  {
+    "title": "Self-hosting our CRM",
+    "subtitle": "Self-hosting Twenty CRM",
+    "date": "2025-09-07",
+    "category": "Architecture",
+    "tags": ["IT", "CRM", "Twenty", "SaaS"]
+  }
+#}
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+  <div class="content xtu-page">
+    <div class="content-body max-width">
+      <h1 class="blog-title"> {{ title }} </h1>
+      <h3 class="blog-subtitle"> {{ subtitle }} </h3>
+
+      <p>
+        We've had some internal discussions at <a href="https://norrminds.com">Norrminds</a> on what to do with our CRM.
+        This week we started using our own self-hosted CRM. Let's talk about why.
+      </p>
+
+      <h2>We need simple</h2>
+      <p>
+        CRM systems are rather simple systems. That is not to say that systems like Hubspot/Salesforce/you favourite CRM are simple, of course! Add features one after another to a system - and soon enough it's not simple!
+      </p>
+
+      <p>
+        My feeling however, is that for most of the workforce that use CRMs,
+        the core features are simply to track contact info and the state of different oppurtunities.
+        With the parameters to the problem being so simple, surely this must be a "buyer's market" for those that
+        are willing to evaluate outside of the big players.
+      </p>
+
+      <h2>Enter Twenty</h2>
+      <p>
+        Turns out there's an Open Source CRM system out there that looks simple and modern.
+        It's backed by a company that sells a hosted (SaaS) version of the same software with only minor differences.
+        It has the features we need, and we can host it for the price of a VPS (about 4 EUR). 
+      </p>
+
+      <h2>Installing on a server</h2>
+      <p>
+        Twenty supplies a Docker container for setting up the CRM on a server.
+        And with it, they have a one-liner script sets up settings and .env to reasonable standards.
+        This means that installing the server is very simple. After installation you should be able to reach the server on port 3000 of your server.
+      </p>
+
+      <h2>Reverse proxying</h2>
+      <p>
+        In front of Twenty we are using a reverse proxy. We're doing this for multiple reasons.
+        <ul>
+          <li>We want to be able to route to different web applications running on the same server/VPS</li>
+          <li>We want to run HTTPS</li>
+        </ul>
+
+        For this server I set up Caddy as my reverse proxy. We've used Nginx previously,
+        but Caddy seems like it is overall a smoother experience and I really think the config via API-first approach is a good choice.
+      </p>
+
+      <h2>Running this inside our VPN network</h2>
+      <p>
+        I don't want to expose these types of internal systems to the internet.
+        So it's important to me that we run this inside of our VPN network.
+        For us, this is Tailscale.
+        This means that our server should only be available to devices on our network via an 100.x.x.x IP address.
+      </p>
+
+      <h2>Setting up a nice URL</h2>
+      <p>
+        I would really like to have our systems available as a subdomain on our regular domain.
+        After testing out setting up split DNS servers etc. I decided that simply added subdomain records on our regular DNS provider was fine.
+        After all, the server is only reachable via our tailnet, so I don't really see a problem with our server being visible in our DNS records.
+      </p>
+
+      <h2>Certificates for private servers</h2>
+      <p>
+        We're using Let's Encrypt for our certificates. This is <b><i>very</i></b> frictionless when using Caddy
+        on public websites. However, the whole situation becomes a bit trickier on private servers.
+        The reason is that we cannot use the same signing flow that is regularly used in Caddy (and Certbot),
+        where one would most commonly use what is called HTTP-01 challenges to verify that you own the domain.
+      </p>
+      <p>
+        Let's Encrypt (or other ACME-compatible cert providers) need to issue a certificate is to see that whoever is asking
+        for a certificate is, in fact, the owner of the server.
+        With HTTP-01 challenges this is done by exposing an HTTP endpoint that Let's Encrypt can access.
+        Since we don't expose our server publically, we can't expose an endpoint for Let's Encrypt to use.
+        Instead we have to use an alternative method called DNS-01.
+      </p>
+      <p>
+        With DNS-01 we instead set up a record on our DNS server.
+        Then Let's encrypt accesses this DNS record to verify that we are in fact the owners of this domain.
+        This is a little bit trickier to automate, since it requires us to interface with our DNS server with every certificate renewal.
+        With Let's Encrypt certificates expiring every 90 days, they have intentionally set it up so that the only viable solution is to automate certificate renewal.
+        Automating interfacing with a DNS server provider becomes a bit more tricky, since there are so many different ones.
+        The way this has ben solved is that both Caddy and Certbot have a plugin ecosystem of 3rd party DNS-01 plugins
+        for renewing certificates.
+        Luckily, such a plugin existed for our DNS provider (Loopia). After compiling a new version of Caddy with this plugin, setting up an API user and configuring the plugin with the credentials, Caddy started successfully generating/receiving certificates.
+      </p>
+    </div>
+  </div>
+{% endblock %}
